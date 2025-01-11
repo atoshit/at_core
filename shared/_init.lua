@@ -50,7 +50,7 @@ local DEBUG <const> = {
     }
 }
 
-local function debug(type, message)
+local function Debug(type, message)
     if DEBUG.level[type] <= Convar("at:debug", 3, "number") then
         if SERVICE == "server" then
             local date = os.date("%Y-%m-%d %H:%M:%S")
@@ -102,8 +102,13 @@ local function Init()
     
     _ENV.core = core
 
+    core.utils = {
+        Debug = Debug,
+        Convar = Convar,
+    }
+
     if core and core.service and core.env and core.name and core.author and core.description and core.version then
-        debug("INFO", string.format("Core initialized [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s]", core.name, core.service, core.env, core.author, core.description, core.version, core.build, core.label))
+        Debug("INFO", string.format("Core initialized [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s]", core.name, core.service, core.env, core.author, core.description, core.version, core.build, core.label))
     else
         error(string.format("Core initialization failed [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s]", core.name or "nil", core.service or "nil", core.env or "nil", core.author or "nil", core.description or "nil", core.version or "nil", core.build or "nil", core.label or "nil"))
     end
