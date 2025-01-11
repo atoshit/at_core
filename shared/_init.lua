@@ -50,14 +50,16 @@ local DEBUG <const> = {
     }
 }
 
+---@param type string WARN | INFO | DEBUG
+---@param message string 
+---@return printing
 local function Debug(type, message)
     if DEBUG.level[type] <= Convar("at:debug", 3, "number") then
         if SERVICE == "server" then
             local date = os.date("%Y-%m-%d %H:%M:%S")
-
-            print(string.format("%s[%s] %s%s", DEBUG.color[type], date, message, DEBUG.color.RESET))
+            return print(string.format("%s[%s] %s%s", DEBUG.color[type], date, message, DEBUG.color.RESET))
         else
-            print(string.format("%s[%s] %s%s", DEBUG.color[type], GetCurrentResourceName(), message, DEBUG.color.RESET))
+            return print(string.format("%s[%s] %s%s", DEBUG.color[type], GetCurrentResourceName(), message, DEBUG.color.RESET))
         end
     end
 end
