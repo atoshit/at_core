@@ -26,7 +26,6 @@ end
 ---@field level table<string, number>
 ---@field color table<string, string>
 local DEBUG <const> = {
-
     ---@type table<string, number>
     ---@field WARN number
     ---@field INFO number
@@ -64,6 +63,19 @@ local function Debug(type, message)
     end
 end
 
+---@param value any
+---@param expected string
+---@return boolean
+local function IsType(value, expected)
+    return type(value) == expected
+end
+
+---@param resource string
+---@return boolean
+local function IsResourceStarted(resource)
+    return GetResourceState(resource) == "started"
+end
+
 ---@type table<string, any>
 ---@field name string
 ---@field service string
@@ -84,7 +96,7 @@ local METADATA <const> = {
     build = Convar("at:gamebuild", 0, "number"), ---@type number
 }
 
-local function Init()
+local function Initialize()
     ---@type table<string, any> 
     ---@field __index table<string, any>
     ---@field __newindex function
@@ -104,16 +116,24 @@ local function Init()
     
     _ENV.core = core
 
-    core.utils = {
-        Debug = Debug,
-        Convar = Convar,
-    }
+    if SERVICE == "server" then
+        core.server = {}
+    elseif SERVICE == "client" then
+        core.client = {}
+    end
 
     if core and core.service and core.env and core.name and core.author and core.description and core.version then
+        core.utils = {
+            Debug = Debug,
+            Convar = Convar,
+            IsType = IsType,
+            IsResourceStarted = IsResourceStarted,
+        }
+
         core.utils.Debug("INFO", string.format("Core initialized [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s]", core.name, core.service, core.env, core.author, core.description, core.version, core.build, core.label))
     else
         error(string.format("Core initialization failed [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s]", core.name or "nil", core.service or "nil", core.env or "nil", core.author or "nil", core.description or "nil", core.version or "nil", core.build or "nil", core.label or "nil"))
     end
 end
 
-Init()
+Initialize()
