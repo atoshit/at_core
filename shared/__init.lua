@@ -1,5 +1,5 @@
 local AT_CORE <const>, SERVICE <const> = "at_core", (IsDuplicityVersion() and "server") or "client"
-local GetResourceMetadata <const>, GetCurrentResourceName <const> = GetResourceMetadata, GetCurrentResourceName
+local GetResourceMetadata <const>, GetCurrentResourceName <const>, Await <const> = GetResourceMetadata, GetCurrentResourceName, Citizen.Await
 
 ---@class Debug
 ---@field level table<string, number>
@@ -46,7 +46,7 @@ local function Convar(name, default, type)
     return result or default
 end
 
----@param type string ERROR|WARN|INFO|DEBUG
+---@param type string ERROR | WARN | INFO | DEBUG
 ---@param message string|number
 ---@return nil
 local function Debug(type, message)
@@ -86,6 +86,7 @@ local METADATA <const> = {
     version = GetResourceMetadata(GetCurrentResourceName(), "version", 0),
     exportsCount = 0,
     build = Convar("at:gamebuild", 0, "number"),
+    Await = Await,
 }
 
 local function Initialize()

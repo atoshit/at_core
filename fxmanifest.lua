@@ -10,7 +10,7 @@ version '1.0.0'
 repository 'https://github.com/atoshit/at_core'
 
 shared_scripts {
-    'shared/_init.lua'
+    'shared/*.lua'
 }
 
 server_scripts {

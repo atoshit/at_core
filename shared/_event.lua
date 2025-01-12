@@ -2,7 +2,18 @@ core.events = {
     registered = {},
     handlers = {},
     handlersCount = {},
+    metrics = {},
+    thresholds = {
+        executionTime = 10,
+        frequency = {
+            count = 50, 
+            window = 1000, 
+        }
+    },
 
+    ---@param eventName string
+    ---@param callback? function
+    ---@return boolean
     Register = function(eventName, callback)
         if not eventName or type(eventName) ~= 'string' then
             core.utils.Debug('ERROR', 'Invalid event name')
@@ -17,6 +28,12 @@ core.events = {
         if not core.events.handlers[eventName] then
             core.events.handlers[eventName] = {}
             core.events.handlersCount[eventName] = 0
+            core.events.metrics[eventName] = {
+                calls = 0,
+                lastReset = GetGameTimer(),
+                totalTime = 0,
+                maxTime = 0
+            }
             RegisterNetEvent(eventName)
         end
 
@@ -30,11 +47,32 @@ core.events = {
             AddEventHandler(eventName, function(...)
                 local handlers = core.events.handlers[eventName]
                 local count = core.events.handlersCount[eventName]
+                local metrics = core.events.metrics[eventName]
+                local startTime = GetGameTimer()
                 
+                metrics.calls = metrics.calls + 1
+                local currentTime = startTime
+                if (currentTime - metrics.lastReset) >= core.events.thresholds.frequency.window then
+                    if metrics.calls >= core.events.thresholds.frequency.count then
+                        core.utils.Debug('WARN', string.format("Event '%s' called %d times in %dms", eventName, metrics.calls, core.events.thresholds.frequency.window))
+                    end
+                    metrics.calls = 0
+                    metrics.lastReset = currentTime
+                end
+
                 for i = 1, count do
                     local handler = handlers[i]
                     if handler then
+                        local handlerStart = GetGameTimer()
                         handler(...)
+                        local executionTime = GetGameTimer() - handlerStart
+                        
+                        metrics.totalTime = metrics.totalTime + executionTime
+                        metrics.maxTime = math.max(metrics.maxTime, executionTime)
+
+                        if executionTime > core.events.thresholds.executionTime then
+                            core.utils.Debug('WARN', string.format("Event '%s' handler took %dms to execute", eventName, executionTime))
+                        end
                     end
                 end
             end)
@@ -43,6 +81,9 @@ core.events = {
         return true
     end,
 
+    ---@param eventName string
+    ---@param callback? function
+    ---@return boolean
     Unregister = function(eventName, callback)
         if not core.events.handlers[eventName] then return false end
 
@@ -64,11 +105,15 @@ core.events = {
             core.events.handlers[eventName] = nil
             core.events.handlersCount[eventName] = nil
             core.events.registered[eventName] = nil
+            core.events.metrics[eventName] = nil
         end
 
         return true
     end,
 
+    ---@param eventName string
+    ---@param ... any
+    ---@return boolean
     Trigger = function(eventName, ...)
         if not eventName then
             core.utils.Debug('ERROR', 'Invalid event name for Trigger')
@@ -78,6 +123,9 @@ core.events = {
         return true
     end,
 
+    ---@param eventName string
+    ---@param ... any
+    ---@return boolean
     Broadcast = function(eventName, ...)
         if not eventName then
             core.utils.Debug('ERROR', 'Invalid event name for Broadcast')
@@ -93,6 +141,10 @@ core.events = {
         end
     end,
 
+    ---@param playerId number
+    ---@param eventName string
+    ---@param ... any
+    ---@return boolean
     ToClient = function(playerId, eventName, ...)
         if not eventName or not playerId then
             core.utils.Debug('ERROR', 'Invalid parameters for ToClient')
@@ -113,6 +165,9 @@ core.events = {
         end
     end,
 
+    ---@param eventName string
+    ---@param ... any
+    ---@return boolean
     ToServer = function(eventName, ...)
         if not eventName then
             core.utils.Debug('ERROR', 'Invalid event name for ToServer')
@@ -123,9 +178,16 @@ core.events = {
             TriggerServerEvent(eventName, ...)
             return true
         else
-            core.utils.Debug('ERROR', 'ToServer can only be called from client')
+            core.utils.Debug('ERROR', 'ToServer can only be called from server')
             return false
         end
+    end,
+
+    ---@param eventName string
+    ---@return table<string, any>|nil
+    GetMetrics = function(eventName)
+        if not eventName or not core.events.metrics[eventName] then return nil end
+        return core.events.metrics[eventName]
     end
 }
 
@@ -202,6 +264,18 @@ core.events.ToServer('updatePosition', {
     z = 300.0
 })
 
+
+-- 7. Vérifier les métriques d'un événement
+------------------------------------------
+local metrics = core.events.GetMetrics('playerJoined')
+if metrics then
+    print(string.format(
+        "Event 'playerJoined' stats:\nCalls: %d\nTotal time: %dms\nMax time: %dms",
+        metrics.calls,
+        metrics.totalTime,
+        metrics.maxTime
+    ))
+end
 
 -- EXEMPLE D'UTILISATION COMPLÈTE (Communication Client-Serveur)
 -------------------------------------------------------------
