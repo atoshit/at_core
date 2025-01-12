@@ -1,10 +1,28 @@
 # AT Core
 
-Core pour FiveM avec gestion optimisée des événements et des utilitaires.
+Framework core pour FiveM avec gestion optimisée des événements, callbacks, et système de classes.
 
 ## Caractéristiques
 
-- Système d'événements optimisé
+### Système d'événements
+- Gestion optimisée des événements
+- Support multi-handlers
+- Communication client/serveur simplifiée
+- Système anti-spam intégré
+
+### Système de Callbacks
+- Support synchrone (await) et asynchrone (trigger)
+- Gestion des timeouts
+- Protection contre les appels multiples
+- Communication bidirectionnelle client/serveur
+
+### Système de Classes
+- Support de l'héritage
+- Données privées
+- Système d'export intégré
+- Support TypeScript/LSP
+
+### Utilitaires
 - Gestion des convars
 - Debug système configurable
 - Support MySQL intégré
@@ -14,9 +32,15 @@ Core pour FiveM avec gestion optimisée des événements et des utilitaires.
 ## Configuration
 
 ### Convars disponibles
-- `at:label`: Nom d'affichage du core
-- `at:gamebuild`: Version du build GTA
-- `at:debug`: Niveau de debug (1: WARN, 2: INFO, 3: DEBUG)
+```
+# Debug levels
+setr at:debug 3 # 0: ERROR, 1: WARN, 2: INFO, 3: DEBUG
+
+# Core settings
+setr at:label "Atoshi Core"
+setr at:gamebuild 3095
+setr at:callbackTimeout 300000
+```
 
 ## Installation
 
@@ -24,49 +48,112 @@ Core pour FiveM avec gestion optimisée des événements et des utilitaires.
 2. Placez la ressource dans votre dossier `resources`
 3. Ajoutez `ensure at_core` à votre `server.cfg`
 
-## Usage
+## Documentation API
 
-### Système d'événements
-
+### Events
 ```lua
 -- Enregistrer un événement
 core.events.Register('monEvent', function(data)
-    print('Event reçu:', json.encode(data, {indent = true}))
+    print('Event reçu:', data)
 end)
 
 -- Déclencher un événement
-core.events.Trigger('monEvent', {
-    message = 'Hello, world!',
-    data = {
-        name = 'John',
-        age = 30
+core.events.Trigger('monEvent', 'données')
+
+-- Broadcast (server only)
+core.events.Broadcast('eventName', ...)
+
+-- Communication client/serveur
+core.events.ToClient(playerId, 'eventName', ...)
+core.events.ToServer('eventName', ...)
+```
+
+### Callbacks
+```lua
+-- Server-side
+core.callback.register('getData', function(source, ...)
+    return { success = true, data = {...} }
+end)
+
+-- Client-side (Async)
+core.callback.trigger('getData', 0, function(result)
+    print(result.success)
+end, 'param1', 'param2')
+
+-- Client-side (Sync)
+local result = core.callback.await('getData', 0, 'param1', 'param2')
+```
+
+### Classes
+```lua
+-- Définition d'une classe simple
+local Animal = core.class('Animal')
+
+function Animal:init()
+    self.alive = true
+end
+
+-- Héritage
+local Dog = core.class('Dog', Animal)
+
+function Dog:init()
+    Animal.init(self)
+    self.species = 'dog'
+end
+
+-- Classe avec export
+local Vehicle = core.class('Vehicle', nil, true)
+
+-- Instance avec données privées
+local instance = Vehicle:new({
+    export = 'mainVehicle',
+    private = {
+        data = 'private'
     }
 })
 ```
 
-### Debug
-
+### Utils
 ```lua
-core.utils.Debug('INFO', 'Message de debug')
-core.utils.Debug('WARN', 'Message de debug')
-core.utils.Debug('ERROR', 'Message de debug')
+-- Debug
+core.utils.Debug('INFO', 'Message')
+
+-- Convars
+local value = core.utils.Convar('at:debug', 3, 'number')
+
+-- Type checking
+core.utils.IsType(value, 'string')
+
+-- Resource check
+core.utils.IsResourceStarted('resource_name')
 ```
 
-## Documentation 
+## Exemples d'utilisation
 
-### Events
-- `Register(eventName, callback)`: Enregistre un événement
-- `Unregister(eventName, [callback])`: Désenregistre un événement
-- `Trigger(eventName, ...)`: Déclenche un événement local
-- `Broadcast(eventName, ...)`: Diffuse à tous les clients
-- `ToClient(playerId, eventName, ...)`: Envoie à un client spécifique
-- `ToServer(eventName, ...)`: Envoie au serveur
+### Système complet de joueur
+```lua
+-- Définition de la classe
+local Player = core.class('Player', nil, true)
 
-### Utils
-- `Debug(type, message)`: Système de logging
-- `Convar(name, default, type)`: Gestion des convars
-- `IsType(value, expected)`: Vérification de type
-- `IsResourceStarted(resource)`: Vérifie si une ressource est active
+function Player:init()
+    self.private.health = 100
+    self.private.inventory = {}
+end
+
+-- Enregistrement des callbacks
+core.callback.register('getPlayerData', function(source)
+    local player = Player.__exports[source]
+    return player and player:getData() or false
+end)
+
+-- Enregistrement des événements
+core.events.Register('playerDamage', function(playerId, damage)
+    local player = Player.__exports[playerId]
+    if player then
+        player:damage(damage)
+    end
+end)
+```
 
 ## License
 MIT License
