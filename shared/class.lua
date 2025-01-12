@@ -40,7 +40,7 @@ end
 ---@param parent? table Classe parente
 ---@param exportable? boolean Permet l'export des méthodes
 ---@return ClassDefinition
-function core.class(name, parent, exportable)
+local function NewClass(name, parent, exportable)
     if not name then 
         core.utils.Debug('ERROR', 'Class name is required')
         return 
@@ -85,6 +85,8 @@ function core.class(name, parent, exportable)
 
     return class
 end
+
+core.class = NewClass
 
 -- Exemples d'utilisation
 --[[
