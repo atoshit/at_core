@@ -1,6 +1,6 @@
 # AT Core
 
-Framework core pour FiveM avec gestion optimisée des événements et des utilitaires.
+Core pour FiveM avec gestion optimisée des événements et des utilitaires.
 
 ## Caractéristiques
 
