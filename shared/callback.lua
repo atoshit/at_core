@@ -154,7 +154,7 @@ end
 
 ---@param name string
 ---@param cb function
-function core.callback.Register(name, cb)
+function RegisterCallback(name, cb)
     core.events.Register(core.callback.prefix:format(name), function(resource, key, ...)
         local source = source
         if core.service == 'client' then
@@ -164,6 +164,8 @@ function core.callback.Register(name, cb)
         end
     end)
 end
+
+core.callback.Register = RegisterCallback
 
 -- Exemple d'utilisation:
 --[[
