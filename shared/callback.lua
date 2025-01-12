@@ -113,7 +113,7 @@ elseif core.service == 'server' then
 
         core.events.ToClient(playerId, core.callback.prefix:format(event), core.env, key, ...)
 
-        ---@type promise|false
+        ---@type promise | false
         local promise = not cb and promise.new()
 
         core.callback.pending[key] = function(response, ...)
