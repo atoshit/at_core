@@ -87,14 +87,14 @@ local result = core.callback.await('getData', 0, 'param1', 'param2')
 ### Classes
 ```lua
 -- Définition d'une classe simple
-local Animal = core.class('Animal')
+local Animal = core.Class('Animal')
 
 function Animal:init()
     self.alive = true
 end
 
 -- Héritage
-local Dog = core.class('Dog', Animal)
+local Dog = core.Class('Dog', Animal)
 
 function Dog:init()
     Animal.init(self)
@@ -102,7 +102,7 @@ function Dog:init()
 end
 
 -- Classe avec export
-local Vehicle = core.class('Vehicle', nil, true)
+local Vehicle = core.Class('Vehicle', nil, true)
 
 -- Instance avec données privées
 local instance = Vehicle:new({
@@ -133,7 +133,7 @@ core.utils.IsResourceStarted('resource_name')
 ### Système complet de joueur
 ```lua
 -- Définition de la classe
-local Player = core.class('Player', nil, true)
+local Player = core.Class('Player', nil, true)
 
 function Player:init()
     self.private.health = 100

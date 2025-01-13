@@ -22,7 +22,7 @@ local DEBUG <const> = {
 
 ---@param name string Convar name
 ---@param default any Default value
----@param type "string"|"number"|"boolean"|"float"
+---@param type "string" | "number" | "boolean" | "float"
 ---@return any
 local function Convar(name, default, type)
     if not name then return default end

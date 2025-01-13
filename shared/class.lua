@@ -86,12 +86,12 @@ local function NewClass(name, parent, exportable)
     return class
 end
 
-core.class = NewClass
+core.Class = NewClass
 
 -- Exemples d'utilisation
 --[[
 -- 1. Classe simple
-local Animal = core.class('Animal')
+local Animal = core.Class('Animal')
 
 function Animal:init()
     self.alive = true
@@ -109,7 +109,7 @@ local dog = Animal:new({
 })
 
 -- 2. Héritage
-local Dog = core.class('Dog', Animal)
+local Dog = core.Class('Dog', Animal)
 
 function Dog:init()
     Animal.init(self) -- Appel du constructeur parent
@@ -128,7 +128,7 @@ local myDog = Dog:new({
 })
 
 -- 3. Classe exportable
-local Vehicle = core.class('Vehicle', nil, true)
+local Vehicle = core.Class('Vehicle', nil, true)
 
 function Vehicle:init()
     self.speed = 0
@@ -148,7 +148,7 @@ local car = Vehicle:new({
 local speed = core.Vehicle('accelerate', 10)
 
 -- 4. Héritage avec export
-local Car = core.class('Car', Vehicle, true)
+local Car = core.Class('Car', Vehicle, true)
 
 function Car:init()
     Vehicle.init(self)
@@ -165,7 +165,7 @@ local tesla = Car:new({
 })
 
 -- 5. Utilisation des données privées
-local Player = core.class('Player')
+local Player = core.Class('Player')
 
 function Player:init()
     self.private.health = 100
