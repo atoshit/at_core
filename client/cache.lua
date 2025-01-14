@@ -35,6 +35,21 @@ function cache.remove(key)
     cache[key] = nil
 end
 
+local function UpdateCache()
+    local playerPed = PlayerPedId()
+    local playerCoords = GetEntityCoords(playerPed)
+    local vehicle = GetVehiclePedIsIn(playerPed, false)
+
+    cache.set('ped', playerPed)
+    cache.set('coords', playerCoords)
+    
+    if vehicle and vehicle ~= 0 then 
+        cache.set('vehicle', vehicle)
+    elseif cache.has('vehicle') then
+        cache.remove('vehicle')
+    end
+end
+
 CreateThread(function()
     local clientId = PlayerId()
     local serverId = GetPlayerServerId(clientId)
@@ -45,18 +60,7 @@ CreateThread(function()
     cache.set('name', playerName)
 
     while true do 
-        local playerPed = PlayerPedId()
-        local playerCoords = GetEntityCoords(playerPed)
-        local vehicle = GetVehiclePedIsIn(playerPed, false)
-
-        cache.set('ped', playerPed)
-        cache.set('coords', playerCoords)
-        
-        if vehicle and vehicle ~= 0 then 
-            cache.set('vehicle', vehicle)
-        elseif cache.has('vehicle') then
-            cache.remove('vehicle')
-        end
+        UpdateCache()
 
         Wait(500)
     end
