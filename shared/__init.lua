@@ -141,8 +141,7 @@ local function Initialize()
         end
     end
 
-    Debug("INFO", string.format("Core initialized [%s] [%s] [Build: %s]", 
-        core.version, core.service, core.build))
+    Debug("INFO", string.format("Core initialized [%s] [%s] [Build: %s]", core.version, core.service, core.build))
     return true
 end
 

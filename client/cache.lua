@@ -1,4 +1,39 @@
-cache = {}
+local cache = {}
+local mt = {
+    __index = cache,
+    __newindex = function(self, key, value)
+        if value == nil then
+            core.utils.Debug('WARN', ('Attempting to set nil value for cache.%s'):format(key))
+            return
+        end
+        rawset(self, key, value)
+    end
+}
+
+setmetatable(cache, mt)
+
+---@param key string
+---@return any
+function cache.get(key)
+    return cache[key]
+end
+
+---@param key string
+---@param value any
+function cache.set(key, value)
+    cache[key] = value
+end
+
+---@param key string
+---@return boolean
+function cache.has(key)
+    return cache[key] ~= nil
+end
+
+---@param key string
+function cache.remove(key)
+    cache[key] = nil
+end
 
 CreateThread(function()
     while true do 
@@ -9,28 +44,16 @@ CreateThread(function()
         local playerCoords = GetEntityCoords(playerPed)
         local vehicle = GetVehiclePedIsIn(playerPed, false)
 
-        if vehicle ~= nil then 
-            cache.vehicle = vehicle
-        end
-
-        if playerPed ~= nil then 
-            cache.ped = playerPed
-        end
-
-        if playerName ~= nil then 
-            cache.name = playerName
-        end
-
-        if playerCoords ~= nil then 
-            cache.coords = playerCoords
-        end
-
-        if serverId ~= nil then 
-            cache.serverId = serverId
-        end
-
-        if clientId ~= nil then 
-            cache.clientId = clientId
+        cache.set('serverId', serverId)
+        cache.set('clientId', clientId)
+        cache.set('ped', playerPed)
+        cache.set('name', playerName)
+        cache.set('coords', playerCoords)
+        
+        if vehicle and vehicle ~= 0 then 
+            cache.set('vehicle', vehicle)
+        elseif cache.has('vehicle') then
+            cache.remove('vehicle')
         end
 
         Wait(500)
@@ -38,5 +61,11 @@ CreateThread(function()
 end)
 
 RegisterCommand('cache', function()
-    print(json.encode(cache, { indent = true }))
+    local data = {}
+    for k, v in pairs(cache) do
+        if type(v) ~= 'function' then
+            data[k] = v
+        end
+    end
+    print(json.encode(data, { indent = true }))
 end)
