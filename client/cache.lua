@@ -36,18 +36,20 @@ function cache.remove(key)
 end
 
 CreateThread(function()
+    local clientId = PlayerId()
+    local serverId = GetPlayerServerId(clientId)
+    local playerName = GetPlayerName(clientId)
+
+    cache.set('serverId', serverId)
+    cache.set('clientId', clientId)
+    cache.set('name', playerName)
+
     while true do 
-        local serverId = GetPlayerServerId(PlayerId())
-        local clientId = PlayerId()
         local playerPed = PlayerPedId()
-        local playerName = GetPlayerName(clientId)
         local playerCoords = GetEntityCoords(playerPed)
         local vehicle = GetVehiclePedIsIn(playerPed, false)
 
-        cache.set('serverId', serverId)
-        cache.set('clientId', clientId)
         cache.set('ped', playerPed)
-        cache.set('name', playerName)
         cache.set('coords', playerCoords)
         
         if vehicle and vehicle ~= 0 then 
