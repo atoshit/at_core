@@ -12,24 +12,19 @@ local mt_private = {
 ---@param obj ClassOptions
 ---@return table
 local function NewInstance(self, obj)
-    -- S'assurer que obj existe
     obj = obj or {}
     
-    -- Initialiser private si nécessaire
     if obj.private or self.private then
         obj.private = obj.private or {}
         setmetatable(obj.private, mt_private)
     end
 
-    -- Appliquer le metatable de la classe
     setmetatable(obj, self)
 
-    -- Appeler le constructeur si défini
     if self.init then 
         obj:init() 
     end
 
-    -- Gérer l'export si défini
     if obj.export then
         self.__exports[obj.export] = obj
     end
@@ -65,7 +60,6 @@ local function NewClass(name, parent, exportable)
     class.__index = class
 
     if parent then
-        -- Hériter des propriétés private du parent
         if parent.private then
             class.private = table.clone(parent.private)
         end
