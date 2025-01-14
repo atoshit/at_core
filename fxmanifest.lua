@@ -19,3 +19,13 @@ server_scripts {
     -- Class
     'server/class/*.lua'
 }
+
+client_scripts {
+    'client/wrapper/*.lua',
+
+    'client/cache.lua',
+
+    'client/class/*.lua',
+
+    'client/main.lua'
+}
