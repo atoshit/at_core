@@ -1,77 +1,76 @@
-local cache = {}
+---@class Cache
+---@field private table<string, any>
+local Cache = {
+    _data = {},
+    _methods = {}
+}
+
 local mt = {
-    __index = cache,
+    __index = function(self, key)
+        if Cache._methods[key] then
+            return Cache._methods[key]
+        end
+        return Cache._data[key]
+    end,
     __newindex = function(self, key, value)
         if value == nil then
             core.utils.Debug('WARN', ('Attempting to set nil value for cache.%s'):format(key))
             return
         end
-        rawset(self, key, value)
+        Cache._data[key] = value
     end
 }
 
-setmetatable(cache, mt)
-
----@param key string
----@return any
-function cache.get(key)
-    return cache[key]
+function Cache._methods.get(key)
+    return Cache._data[key]
 end
 
----@param key string
----@param value any
-function cache.set(key, value)
-    cache[key] = value
+function Cache._methods.set(key, value)
+    if value == nil then return end
+    Cache._data[key] = value
 end
 
----@param key string
----@return boolean
-function cache.has(key)
-    return cache[key] ~= nil
+function Cache._methods.has(key)
+    return Cache._data[key] ~= nil
 end
 
----@param key string
-function cache.remove(key)
-    cache[key] = nil
-end
-
-local function UpdateCache()
-    local playerPed = PlayerPedId()
-    local playerCoords = GetEntityCoords(playerPed)
-    local vehicle = GetVehiclePedIsIn(playerPed, false)
-
-    cache.set('ped', playerPed)
-    cache.set('coords', playerCoords)
-    
-    if vehicle and vehicle ~= 0 then 
-        cache.set('vehicle', vehicle)
-    elseif cache.has('vehicle') then
-        cache.remove('vehicle')
-    end
+function Cache._methods.remove(key)
+    Cache._data[key] = nil
 end
 
 CreateThread(function()
     local clientId = PlayerId()
-    local serverId = GetPlayerServerId(clientId)
-    local playerName = GetPlayerName(clientId)
-
-    cache.set('serverId', serverId)
-    cache.set('clientId', clientId)
-    cache.set('name', playerName)
+    Cache._methods.set('clientId', clientId)
+    Cache._methods.set('serverId', GetPlayerServerId(clientId))
+    Cache._methods.set('name', GetPlayerName(clientId))
 
     while true do 
-        UpdateCache()
+        local playerPed = PlayerPedId()
+        local coords = GetEntityCoords(playerPed)
+        local vehicle = GetVehiclePedIsIn(playerPed, false)
+
+        Cache._methods.set('ped', playerPed)
+        Cache._methods.set('coords', coords)
+        
+        if vehicle and vehicle ~= 0 then 
+            Cache._methods.set('vehicle', vehicle)
+        elseif Cache._methods.has('vehicle') then
+            Cache._methods.remove('vehicle')
+        end
 
         Wait(500)
     end
 end)
 
+-- Debug command
 RegisterCommand('cache', function()
     local data = {}
-    for k, v in pairs(cache) do
-        if type(v) ~= 'function' then
-            data[k] = v
-        end
+    for k, v in pairs(Cache._data) do
+        data[k] = v
     end
     print(json.encode(data, { indent = true }))
 end)
+
+local cache = setmetatable({}, mt)
+
+_ENV.cache = cache

@@ -27,5 +27,5 @@ client_scripts {
 
     'client/class/*.lua',
 
-    'client/main.lua'
+    'client/*.lua'
 }
