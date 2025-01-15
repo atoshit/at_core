@@ -15,20 +15,16 @@ shared_scripts {
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
-
+    
     -- Class
     'server/class/*.lua'
 }
 
 client_scripts {
     'client/wrapper/*.lua',
-
     'client/function/**/*.lua',
-
     'client/cache.lua',
-
     'client/class/*.lua',
-
     'client/*.lua'
 }
 
