@@ -14,7 +14,7 @@ core.events = {
     ---@param eventName string
     ---@param callback? function
     ---@return boolean
-    Register = function(eventName, callback)
+    Register = function(eventName, callback, priority)
         if not eventName or type(eventName) ~= 'string' then
             core.utils.Debug('ERROR', 'Invalid event name')
             return false
@@ -37,9 +37,26 @@ core.events = {
             RegisterNetEvent(eventName)
         end
 
-        local nextIndex = core.events.handlersCount[eventName] + 1
-        core.events.handlers[eventName][nextIndex] = callback
-        core.events.handlersCount[eventName] = nextIndex
+        local handler = {
+            callback = callback,
+            priority = priority or core.events.Priority.NORMAL
+        }
+        
+        -- Insert handler with priority
+        local inserted = false
+        for i = 1, core.events.handlersCount[eventName] do
+            if core.events.handlers[eventName][i].priority > handler.priority then
+                table.insert(core.events.handlers[eventName], i, handler)
+                inserted = true
+                break
+            end
+        end
+        
+        if not inserted then
+            table.insert(core.events.handlers[eventName], handler)
+        end
+        
+        core.events.handlersCount[eventName] = core.events.handlersCount[eventName] + 1
 
         if not core.events.registered[eventName] then
             core.events.registered[eventName] = true
@@ -64,7 +81,7 @@ core.events = {
                     local handler = handlers[i]
                     if handler then
                         local handlerStart = GetGameTimer()
-                        handler(...)
+                        handler.callback(...)
                         local executionTime = GetGameTimer() - handlerStart
                         
                         metrics.totalTime = metrics.totalTime + executionTime
@@ -83,6 +100,204 @@ core.events = {
 
     ---@param eventName string
     ---@param callback? function
+    ---@return boolean
+    Unregister = function(eventName, callback)
+        if not core.events.handlers[eventName] then return false end
+
+        if callback then
+            local handlers = core.events.handlers[eventName]
+            local count = core.events.handlersCount[eventName]
+            
+            for i = 1, count do
+                if handlers[i] == callback then
+                    for j = i, count - 1 do
+                        handlers[j] = handlers[j + 1]
+                    end
+                    handlers[count] = nil
+                    core.events.handlersCount[eventName] = count - 1
+                    break
+                end
+            end
+        else
+            core.events.handlers[eventName] = nil
+            core.events.handlersCount[eventName] = nil
+            core.events.registered[eventName] = nil
+            core.events.metrics[eventName] = nil
+        end
+
+        return true
+    end,
+
+    ---@param eventName string
+    ---@param ... any
+    ---@return boolean
+    Trigger = function(eventName, ...)
+        if not eventName then
+            core.utils.Debug('ERROR', 'Invalid event name for Trigger')
+            return false
+        end
+        TriggerEvent(eventName, ...)
+        return true
+    end,
+
+    ---@param eventName string
+    ---@param ... any
+    ---@return boolean
+    Broadcast = function(eventName, ...)
+        if not eventName then
+            core.utils.Debug('ERROR', 'Invalid event name for Broadcast')
+            return false
+        end
+
+        if core.service == 'server' then
+            TriggerClientEvent(eventName, -1, ...)
+            return true
+        else
+            core.utils.Debug('ERROR', 'Broadcast can only be called from server')
+            return false
+        end
+    end,
+
+    ---@param playerId number
+    ---@param eventName string
+    ---@param ... any
+    ---@return boolean
+    ToClient = function(playerId, eventName, ...)
+        if not eventName or not playerId then
+            core.utils.Debug('ERROR', 'Invalid parameters for ToClient')
+            return false
+        end
+
+        if core.service == 'server' then
+            if type(playerId) == 'number' then
+                TriggerClientEvent(eventName, playerId, ...)
+                return true
+            else
+                core.utils.Debug('ERROR', 'Invalid player ID')
+                return false
+            end
+        else
+            core.utils.Debug('ERROR', 'ToClient can only be called from server')
+            return false
+        end
+    end,
+
+    ---@param eventName string
+    ---@param ... any
+    ---@return boolean
+    ToServer = function(eventName, ...)
+        if not eventName then
+            core.utils.Debug('ERROR', 'Invalid event name for ToServer')
+            return false
+        end
+
+        if core.service == 'client' then
+            TriggerServerEvent(eventName, ...)
+            return true
+        else
+            core.utils.Debug('ERROR', 'ToServer can only be called from server')
+            return false
+        end
+    end,
+
+    ---@param eventName string
+    ---@return table<string, any>|nil
+    GetMetrics = function(eventName)
+        if not eventName or not core.events.metrics[eventName] then return nil end
+        return core.events.metrics[eventName]
+    },
+
+    ---@param eventName string
+    ---@param callback function
+    ---@param priority? number
+    ---@return boolean
+    Register = function(eventName, callback, priority)
+        if not eventName or type(eventName) ~= 'string' then
+            core.utils.Debug('ERROR', 'Invalid event name')
+            return false
+        end
+
+        if not callback or type(callback) ~= 'function' then
+            core.utils.Debug('ERROR', 'Invalid callback for event: ' .. eventName)
+            return false
+        end
+
+        if not core.events.handlers[eventName] then
+            core.events.handlers[eventName] = {}
+            core.events.handlersCount[eventName] = 0
+            core.events.metrics[eventName] = {
+                calls = 0,
+                lastReset = GetGameTimer(),
+                totalTime = 0,
+                maxTime = 0
+            }
+            RegisterNetEvent(eventName)
+        end
+
+        local handler = {
+            callback = callback,
+            priority = priority or core.events.Priority.NORMAL
+        }
+        
+        -- Insert handler with priority
+        local inserted = false
+        for i = 1, core.events.handlersCount[eventName] do
+            if core.events.handlers[eventName][i].priority > handler.priority then
+                table.insert(core.events.handlers[eventName], i, handler)
+                inserted = true
+                break
+            end
+        end
+        
+        if not inserted then
+            table.insert(core.events.handlers[eventName], handler)
+        end
+        
+        core.events.handlersCount[eventName] = core.events.handlersCount[eventName] + 1
+
+        if not core.events.registered[eventName] then
+            core.events.registered[eventName] = true
+            
+            AddEventHandler(eventName, function(...)
+                local handlers = core.events.handlers[eventName]
+                local count = core.events.handlersCount[eventName]
+                local metrics = core.events.metrics[eventName]
+                local startTime = GetGameTimer()
+                
+                metrics.calls = metrics.calls + 1
+                local currentTime = startTime
+                if (currentTime - metrics.lastReset) >= core.events.thresholds.frequency.window then
+                    if metrics.calls >= core.events.thresholds.frequency.count then
+                        core.utils.Debug('WARN', string.format("Event '%s' called %d times in %dms", eventName, metrics.calls, core.events.thresholds.frequency.window))
+                    end
+                    metrics.calls = 0
+                    metrics.lastReset = currentTime
+                end
+
+                for i = 1, count do
+                    local handler = handlers[i]
+                    if handler then
+                        local handlerStart = GetGameTimer()
+                        handler.callback(...)
+                        local executionTime = GetGameTimer() - handlerStart
+                        
+                        metrics.totalTime = metrics.totalTime + executionTime
+                        metrics.maxTime = math.max(metrics.maxTime, executionTime)
+
+                        if executionTime > core.events.thresholds.executionTime then
+                            core.utils.Debug('WARN', string.format("Event '%s' handler took %dms to execute", eventName, executionTime))
+                        end
+                    end
+                end
+            end)
+        end
+
+        return true
+    end,
+
+    ---@param eventName string
+    ---@param callback function
+    ---@param priority? number
     ---@return boolean
     Unregister = function(eventName, callback)
         if not core.events.handlers[eventName] then return false end

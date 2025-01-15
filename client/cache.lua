@@ -17,7 +17,16 @@ local mt = {
             core.utils.Debug('WARN', ('Attempting to set nil value for cache.%s'):format(key))
             return
         end
+        
+        local oldValue = Cache._data[key]
         Cache._data[key] = value
+        
+        -- Notify observers
+        if Cache._methods._observers and Cache._methods._observers[key] then
+            for _, callback in ipairs(Cache._methods._observers[key]) do
+                callback(value, oldValue)
+            end
+        end
     end
 }
 
@@ -36,6 +45,16 @@ end
 
 function Cache._methods.remove(key)
     Cache._data[key] = nil
+end
+
+function Cache._methods.onChange(key, callback)
+    if not Cache._methods._observers then
+        Cache._methods._observers = {}
+    end
+    if not Cache._methods._observers[key] then
+        Cache._methods._observers[key] = {}
+    end
+    table.insert(Cache._methods._observers[key], callback)
 end
 
 CreateThread(function()
