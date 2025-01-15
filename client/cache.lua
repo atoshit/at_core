@@ -54,6 +54,12 @@ CreateThread(function()
         
         if vehicle and vehicle ~= 0 then 
             Cache._methods.set('vehicle', vehicle)
+            
+            for i = 0, GetVehicleMaxNumberOfPassengers(veh) do
+                if GetPedInVehicleSeat(veh) then 
+                    Cache._methods.set('vehicleSeat', i)
+                end
+            end
         elseif Cache._methods.has('vehicle') then
             Cache._methods.remove('vehicle')
         end
