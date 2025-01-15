@@ -177,13 +177,13 @@ client_scripts {
     , "client/ipl/dlc_chopshop/salvage.lua"
 
     -- DLC Bottom Dollar Bounties (Requires forced build 3258 or higher)
-    , "client/ipl/dlc_summer/base.lua"
-    , "client/ipl/dlc_summer/carrier.lua"
-    , "client/ipl/dlc_summer/office.lua"
+    --, "client/ipl/dlc_summer/base.lua"
+    --, "client/ipl/dlc_summer/carrier.lua"
+    --, "client/ipl/dlc_summer/office.lua"
 
     -- DLC Agents of Sabotage (Requires forced build 3407 or higher)
-    , "client/ipl/dlc_agents/base.lua"
-    , "client/ipl/dlc_agents/factory.lua"
-    , "client/ipl/dlc_agents/office.lua"
-    , "client/ipl/dlc_agents/airstrip.lua"
+    --, "client/ipl/dlc_agents/base.lua"
+    --, "client/ipl/dlc_agents/factory.lua"
+    --, "client/ipl/dlc_agents/office.lua"
+    --, "client/ipl/dlc_agents/airstrip.lua"
 }
