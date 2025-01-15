@@ -1,4 +1,6 @@
 local function SpawnPlayer()
+    DoScreenFadeOut(0)
+
     repeat
         Wait(100)
     until DoesEntityExist(cache.get('ped'))
@@ -9,18 +11,22 @@ local function SpawnPlayer()
     end
 
     SetPlayerModel(cache.get('clientId'), 'mp_m_freemode_01')
-    SetEntityCoords(PlayerPedId(), -3058.714, 3329.19, 12.5844, false, false, false, false)
-    SetEntityHeading(PlayerPedId(), 180.0)
+
+    Wait(550)
+
+    SetEntityCoords(cache.get('ped'), -3058.714, 3329.19, 12.5844, false, false, false, false)
+    SetEntityHeading(cache.get('ped'), 180.0)
 
     if IsLoadingPromptBeingDisplayed() then
         RemoveLoadingPrompt()
         ShutdownLoadingScreen()
         ShutdownLoadingScreenNui()
+        DoScreenFadeIn(0)
     end
 
-    if DoesEntityExist(PlayerPedId()) then
-        SetPedDefaultComponentVariation(PlayerPedId())
-        FreezeEntityPosition(PlayerPedId(), false)
+    if DoesEntityExist(cache.get('ped')) then
+        SetPedDefaultComponentVariation(cache.get('ped'))
+        FreezeEntityPosition(cache.get('ped'), false)
     end
 end
 
