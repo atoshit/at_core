@@ -4,7 +4,7 @@
 
 ---Crash a player with a lot of objects
 ---@param playerPed ped
-function core.client.player.CrashPlayer(playerPed)
+function core.client.CrashPlayer(playerPed)
     local playerPos = GetEntityCoords(playerPed, false)
     local modelHashes = {
         0x34315488, 0x4F2526DA, 0x6A27FEB1,

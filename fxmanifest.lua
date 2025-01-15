@@ -23,6 +23,8 @@ server_scripts {
 client_scripts {
     'client/wrapper/*.lua',
 
+    'client/function/**/*.lua',
+
     'client/cache.lua',
 
     'client/class/*.lua',
