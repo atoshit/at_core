@@ -239,7 +239,6 @@ end)
 ### Protection contre les exploits
 - Validation des entrées côté serveur
 - Système de rate limiting intégré
-- Vérification des permissions
 - Protection contre l'injection SQL
 
 ### Bonnes pratiques
