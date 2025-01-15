@@ -206,19 +206,16 @@ end
 ### Performance
 ```lua
 -- Utiliser les constantes locales
-local GetGameTimer = GetGameTimer
-local Wait = Wait
-
--- Éviter les boucles infinies sans Wait
-CreateThread(function()
-    while true do
-        -- Code
-        Wait(0)
-    end
-end)
+local GetGameTimer <const> = GetGameTimer
+local Wait <const> = Wait
 
 -- Utiliser le cache plutôt que les appels natifs
 local ped = cache.get('ped')
+
+-- Utilisé les itérations numériques pour les boucles sans utilisations de key
+for i = 1, 10 do
+    print(i)
+end
 ```
 
 ### Sécurité
@@ -275,7 +272,7 @@ end)
 5. Ouvrir une Pull Request
 
 ### Standards de code
-- Utiliser la documentation LuaLS/TypeScript
+- Utiliser la documentation Lua
 - Suivre les conventions de nommage
 - Ajouter des tests unitaires
 - Documenter les changements
