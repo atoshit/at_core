@@ -5,11 +5,6 @@ local function SpawnPlayer()
         Wait(100)
     until DoesEntityExist(cache.get('ped'))
 
-    RequestModel('mp_m_freemode_01')
-    while not HasModelLoaded('mp_m_freemode_01') do
-        Wait(100)
-    end
-
     SetPlayerModel(cache.get('clientId'), 'mp_m_freemode_01')
 
     Wait(550)
@@ -27,6 +22,8 @@ local function SpawnPlayer()
     if DoesEntityExist(cache.get('ped')) then
         SetPedDefaultComponentVariation(cache.get('ped'))
         FreezeEntityPosition(cache.get('ped'), false)
+
+        core.events.Trigger('at:playerSpawned')
     end
 end
 
