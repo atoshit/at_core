@@ -75,18 +75,6 @@ local function IsResourceStarted(resource)
     return GetResourceState(resource) == "started"
 end
 
----@param model string
----@return boolean
-local function LoadModel(model)
-    RequestModel(model)
-
-    while not HasModelLoaded(model) do
-        Wait(100)
-    end
-
-    return true
-end
-
 ---@type table<string, any>
 local METADATA <const> = {
     name = AT_CORE,
@@ -136,7 +124,7 @@ local function Initialize()
 
     if SERVICE == "server" then core.server = {} end
     if SERVICE == "client" then core.client = {
-        LoadModel = LoadModel,
+        --LoadModel = LoadModel,
     } end
     if IsResourceStarted("oxmysql") then core.mysql = {} end
 
