@@ -21,7 +21,6 @@ local mt = {
         local oldValue = Cache._data[key]
         Cache._data[key] = value
         
-        -- Notify observers
         if Cache._methods._observers and Cache._methods._observers[key] then
             for _, callback in ipairs(Cache._methods._observers[key]) do
                 callback(value, oldValue)
