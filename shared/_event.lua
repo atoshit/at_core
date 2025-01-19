@@ -25,12 +25,12 @@ core.events = {
     ---@return boolean
     Register = function(eventName, callback, priority)
         if not eventName or type(eventName) ~= 'string' then
-            core.utils.Debug('ERROR', 'Invalid event name')
+            error('Invalid event name')
             return false
         end
 
         if not callback or type(callback) ~= 'function' then
-            core.utils.Debug('ERROR', 'Invalid callback for event: ' .. eventName)
+            error('Invalid callback for event: ' .. eventName)
             return false
         end
 
@@ -142,7 +142,7 @@ core.events = {
     ---@return boolean
     Trigger = function(eventName, ...)
         if not eventName then
-            core.utils.Debug('ERROR', 'Invalid event name for Trigger')
+            error('Invalid event name for Trigger')
             return false
         end
         TriggerEvent(eventName, ...)
@@ -154,7 +154,7 @@ core.events = {
     ---@return boolean
     Broadcast = function(eventName, ...)
         if not eventName then
-            core.utils.Debug('ERROR', 'Invalid event name for Broadcast')
+            error('Invalid event name for Broadcast')
             return false
         end
 
@@ -162,7 +162,7 @@ core.events = {
             TriggerClientEvent(eventName, -1, ...)
             return true
         else
-            core.utils.Debug('ERROR', 'Broadcast can only be called from server')
+            error('Broadcast can only be called from server')
             return false
         end
     end,
@@ -173,7 +173,7 @@ core.events = {
     ---@return boolean
     ToClient = function(playerId, eventName, ...)
         if not eventName or not playerId then
-            core.utils.Debug('ERROR', 'Invalid parameters for ToClient')
+            error('Invalid parameters for ToClient')
             return false
         end
 
@@ -182,11 +182,11 @@ core.events = {
                 TriggerClientEvent(eventName, playerId, ...)
                 return true
             else
-                core.utils.Debug('ERROR', 'Invalid player ID')
+                error('Invalid player ID')
                 return false
             end
         else
-            core.utils.Debug('ERROR', 'ToClient can only be called from server')
+            error('ToClient can only be called from server')
             return false
         end
     end,
@@ -196,7 +196,7 @@ core.events = {
     ---@return boolean
     ToServer = function(eventName, ...)
         if not eventName then
-            core.utils.Debug('ERROR', 'Invalid event name for ToServer')
+            error('Invalid event name for ToServer')
             return false
         end
 
@@ -204,7 +204,7 @@ core.events = {
             TriggerServerEvent(eventName, ...)
             return true
         else
-            core.utils.Debug('ERROR', 'ToServer can only be called from server')
+            error('ToServer can only be called from server')
             return false
         end
     end,

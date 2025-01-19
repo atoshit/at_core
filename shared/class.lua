@@ -45,8 +45,7 @@ end
 ---@return ClassDefinition
 local function NewClass(name, parent, exportable)
     if not name then 
-        core.utils.Debug('ERROR', 'Class name is required')
-        return 
+        return error('Class name is required')
     end
 
     local class = {
@@ -82,7 +81,7 @@ local function NewClass(name, parent, exportable)
                 if export and export[method] then
                     return export[method](export, ...)
                 end
-                core.utils.Debug('ERROR', ('Invalid export call: %s.%s'):format(name, method or 'nil'))
+                error(('Invalid export call: %s.%s'):format(name, method or 'nil'))
                 return nil
             end
         elseif parent then
