@@ -4,6 +4,23 @@ local function StartSpawnAnimation(spawnCoords, cam)
     local startTime = GetGameTimer()
     local duration = 5000 
 
+    -- Show spawn UI
+    SendNUIMessage({
+        type = 'showSpawnUI',
+        serverName = GetConvar('sv_projectName', 'AT Core'),
+        playerName = cache.get('name')
+    })
+    SetNuiFocus(true, true)
+
+    -- Register NUI Callback
+    RegisterNuiCallback('spawnPlayer', function(data, cb)
+        SetNuiFocus(false, false)
+        SendNUIMessage({
+            type = 'hideSpawnUI'
+        })
+        cb({})
+    end)
+
     CreateThread(function()
         while GetGameTimer() - startTime < duration do
             local progress = (GetGameTimer() - startTime) / duration

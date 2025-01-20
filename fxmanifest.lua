@@ -32,6 +32,15 @@ client_scripts {
 }
 
 
+ui_page 'web/spawn/index.html'
+
+files {
+    'web/spawn/index.html',
+    'web/spawn/style.css',
+    'web/spawn/script.js',
+    'web/spawn/sounds/*.mp3' 
+}
+
 client_scripts {
     "client/ipl/lib/common.lua"
     , "client/ipl/lib/observers/interiorIdObserver.lua"
