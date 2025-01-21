@@ -93,8 +93,6 @@ body {
     transform: translate(-50%, -50%);
 }
 
-
-
 .spawn-button:hover::before {
     width: 300px;
     height: 300px;

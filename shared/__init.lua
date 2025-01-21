@@ -136,7 +136,7 @@ local function Initialize()
     }
 
     local REQUIRED_FIELDS <const> = {'service', 'env', 'name', 'author', 'description', 'version'}
-    for _, field in ipairs(REQUIRED_FIELDS) do
+    for _, field in pairs(REQUIRED_FIELDS) do
         if not core[field] then
             Debug('ERROR', string.format('Missing required field: %s', field))
             return false
