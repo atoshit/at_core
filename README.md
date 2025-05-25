@@ -4,4 +4,4 @@
 
 | Subject | Description | Link |
 |-------|-------------|------|
-| Configuration | Server Installation & Configuration | [Link](./docs/CONFIGURATION.md.md) |
+| Configuration | Server Installation & Configuration | [Link](./docs/CONFIGURATION.md) |
