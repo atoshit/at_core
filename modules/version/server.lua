@@ -33,7 +33,7 @@ local function checkVersion(r)
 
                 if current ~= minimum then
                     if current < minimum then
-                        return print(('^3An update is available for %s (current version: %s)\r\n%s^0'):format(resource, currentVersion, response.html_url))
+                        return warn("\nNew version of "..resource.." available \nCurrent version: "..currentVersion.."\nLatest version: "..latestVersion.." (" .. response.html_url .. ")\nPlease update your resource")
                     else break end
                 end
             end
