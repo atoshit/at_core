@@ -13,7 +13,6 @@ local LANG <const> = GetConvar('at_core:lang', 'en')
 local DEBUG <const> = GetConvarInt('at_core:debug', 0)
 local VERSION <const> = GetResourceMetadata(RESOURCE_NAME, 'version', 0)
 
-
 --- Load a file
 ---@param p string : Path of the file to load
 ---@return any
