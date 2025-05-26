@@ -6,3 +6,4 @@
     Copyright © 2025 Atoshi <https://github.com/atoshit>
 ]]
 
+-- TODO: Discord Logs
