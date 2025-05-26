@@ -9,7 +9,9 @@
 ## Documentation
 | Subject | Description | Link |
 |-------|-------------|------|
-| Configuration | Server Installation & Configuration | [Link](./docs/CONFIGURATION.md) |
+| Configuration | Server installation & configuration | [Link](./docs/CONFIGURATION.md) |
+| Global functions | Global functions list & usages | [Link](./docs/GLOBAL_FUNCTIONS.md) |
+| Global metadatas | Global metadatas list | [Link](./docs/GLOBAL_METADATA.md) |
 
 ## Features
 - **Modular** and user-friendly framework
