@@ -136,6 +136,38 @@ local function isResourceStarted(r)
     return GetResourceState(r) == 'started'
 end
 
+--- Log a debug message
+---@param msg string: Message to print
+---@return any
+---@private
+local function debug(msg)
+    if not DEBUG == 0 then return end
+
+    if not msg or type(msg) ~= 'string' then return end
+
+    if CURRENT_ENV == 'server' then
+        local timestamp = os.date('%X')
+        return print("[^6at_core:debug^7] [^6".. timestamp .. "^7] " .. msg)
+    end
+
+    return print("[^6at_core:debug^7]" .. msg)
+end
+
+--- Log a information message
+---@param msg string: Message to print
+---@return any
+---@private
+local function info(msg)
+    if not msg or type(msg) ~= 'string' then return end
+
+    if CURRENT_ENV == 'server' then
+        local timestamp = os.date('%X')
+        return print("[^4at_core:info^7] [^4".. timestamp .. "^7] " .. msg)
+    end
+
+    return print("[^4at_core:info^7]" .. msg)
+end
+
 local AT_METADATA <const> = {
     env = CURRENT_ENV,
     lang = LANG,
@@ -149,7 +181,9 @@ local AT_METADATA <const> = {
     LoadConfig = loadConfig,
     LoadLocale = loadLocale,
     UnloadModule = unloadModule,
-    IsResourceStarted = isResourceStarted
+    IsResourceStarted = isResourceStarted,
+    Debug = debug,
+    Info = info
 }
 
 --- Main Object

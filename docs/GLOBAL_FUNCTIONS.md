@@ -1,6 +1,6 @@
 # Global functions list & usages
 
-## at.loadModule
+## at.LoadModule
 - **Description:** Load a module
 - **Parameters:**
   - `module` (string): The name of the module to load
@@ -13,7 +13,7 @@
   module.functionName()
   ```
 
-## at.loadConfig
+## at.LoadConfig
 - **Description:** Load a config file
 - **Parameters:**
   - `config` (string): The name of the config file to load
@@ -26,7 +26,7 @@
   print(config.key)
   ```
 
-## at.loadLocale
+## at.LoadLocale
 - **Description:** Load a language file
 - **Parameters:**
   - `lang` (string): The name of the language file to load
@@ -39,7 +39,7 @@
   print(language["key"])
   ```
 
-## at.isResourceStarted
+## at.IsResourceStarted
 - **Description:** Check if a resource is started
 - **Parameters:**
   - `r` (string): The name of the resource to check
@@ -51,4 +51,26 @@
   else
     print("Resource is not started")
   end
+  ```
+
+## at.Info
+- **Description:** Print a info message
+- **Parameters:**
+  - `msg` (string): Message to print
+- **Usage:**
+  ```lua
+  local msg <const> = "Hello World !"
+
+  at.Info(msg)
+  ```
+
+## at.Debug
+- **Description:** Print a debug message
+- **Parameters:**
+  - `msg` (string): Message to print
+- **Usage:**
+  ```lua
+  local msg <const> = "Hello World !"
+
+  at.Debug(msg)
   ```
