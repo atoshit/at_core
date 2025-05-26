@@ -195,8 +195,13 @@ local AT_METADATA <const> = {
 ---@field modules table<{[string]: table}>
 ---@field configs table<{[string]: table}>
 ---@field locales table<{[string]: table}>
----@field loadModule function
----@field loadConfig function
+---@field LoadModule function
+---@field LoadConfig function
+---@field LoadLocale function
+---@field UnloadModule function
+---@field IsResourceStarted function
+---@field Debug function
+---@field Info function 
 local at = {}
 
 setmetatable(at, {
