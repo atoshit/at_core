@@ -15,7 +15,7 @@ local VERSION <const> = GetResourceMetadata(RESOURCE_NAME, 'version', 0)
 
 
 --- Load a file
----@param p string
+---@param p string : Path of the file to load
 ---@return any
 ---@private
 local function loadFile(p)
@@ -39,7 +39,7 @@ end
 local modules = {}
 
 --- Load a module
----@param module string<'example: version'>
+---@param module string<'example: version'> : Module to load
 ---@return table|nil
 ---@private
 local function loadModule(module)
@@ -63,7 +63,7 @@ end
 local configs = {}
 
 --- Load a config
----@param config string<'example: webhooks'>
+---@param config string<'example: webhooks'> : Config to load
 ---@return table|nil
 ---@private
 local function loadConfig(config)
@@ -87,7 +87,7 @@ end
 local locales = {}
 
 --- Load a language
----@param lang string | nil
+---@param lang string | nil : Language to load
 ---@return table|nil
 ---@private
 local function loadLocale(lang)
@@ -106,6 +106,13 @@ local function loadLocale(lang)
     return locales[language]
 end
 
+---@param r string: Resource Name
+---@return boolean<'true'|'false'>
+---@private
+local function isResourceStarted(r)
+    return GetResourceState(r) == 'started'
+end
+
 local AT_METADATA <const> = {
     env = CURRENT_ENV,
     lang = LANG,
@@ -117,7 +124,8 @@ local AT_METADATA <const> = {
     locales = locales,
     loadModule = loadModule,
     loadConfig = loadConfig,
-    loadLocale = loadLocale
+    loadLocale = loadLocale,
+    isResourceStarted = isResourceStarted
 }
 
 --- Main Object
