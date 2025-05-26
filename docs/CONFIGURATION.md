@@ -26,7 +26,8 @@ add_ace resource.at_core command allow
 3. Create a new file in your server's root directory called `at_core_settings.cfg`
 4. Copy this content into the file:
 ```
-setr at_core:debug false
+setr at_core:debug 0 # 0 by default (0 == false, 1 == true)
+setr at_core:lang "en" # "en" by default
 ```
 5. Configure the settings as needed.
 6. Start your server and enjoy :).
