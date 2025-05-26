@@ -11,3 +11,8 @@
 | Subject | Description | Link |
 |-------|-------------|------|
 | Configuration | Server Installation & Configuration | [Link](./docs/CONFIGURATION.md) |
+
+## Credits
+
+- Made with ❤️ by [Atoshi](https://github.com/atoshit/)
+- Contact me on Discord for support or other inquiries: atoshic17
