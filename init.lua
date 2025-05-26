@@ -6,6 +6,8 @@
     Copyright © 2025 Atoshi <https://github.com/atoshit>
 ]]
 
+local modules_loaded = {}
+
 local RESOURCE_NAME <const> = GetCurrentResourceName()
 local CURRENT_ENV <const> = (IsDuplicityVersion() and 'server') or 'client'
 local LANG <const> = GetConvar('at_core:lang', 'en')
@@ -16,7 +18,29 @@ local AT_METADATA <const> = {
     lang = LANG,
     debug = DEBUG,
     version = VERSION,
-    resource = RESOURCE_NAME
+    resource = RESOURCE_NAME,
+    modules_loaded = modules_loaded,
+    require = function(p)
+        if modules_loaded[p] then
+            return modules_loaded[p]
+        end
+
+        local module_path = ("%s.lua"):format(p)
+        local module_file = LoadResourceFile(RESOURCE_NAME, module_path)
+
+        if not module_file then
+            warn(('Module not found: %s'):format(module_path))
+            return
+        end
+
+        modules_loaded[p] = load(module_file)()
+
+        if modules_loaded[p] then
+            return modules_loaded[p]
+        end
+
+        error(('Failed to load module: %s'):format(module_path))
+    end
 }
 
 --- Main Object
