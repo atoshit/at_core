@@ -11,7 +11,8 @@
 |-------|-------------|------|
 | Configuration | Server installation & configuration | [Link](./docs/CONFIGURATION.md) |
 | Global functions | Global functions list & usages | [Link](./docs/GLOBAL_FUNCTIONS.md) |
-| Global metadatas | Global metadatas list | [Link](./docs/GLOBAL_METADATA.md) |
+| Global metadatas | Global metadatas list | [Link](./docs/GLOBAL_METADATAS.md) |
+| Server commands | Server commands list | [Link](./docs/SERVER_COMMANDS.md) |
 
 ## Features
 - **Modular** and user-friendly framework
