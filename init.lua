@@ -109,6 +109,25 @@ local function loadLocale(lang)
     return locales[language]
 end
 
+---@param module string<'example: version'> : Module to unload
+---@return boolean<'true'|'false'>
+---@private
+local function unloadModule(module)
+    if not module then
+        return warn('(func: unloadModule) param module not found')
+    end
+
+    if not modules[module] then
+        return warn(('(func: unloadModule) Module not loaded: %s'):format(module))
+    end
+
+    modules[module] = nil
+
+    collectgarbage('collect')
+
+    return true
+end
+
 --- Check if a resource is started
 ---@param r string: Resource Name
 ---@return boolean<'true'|'false'>
@@ -129,6 +148,7 @@ local AT_METADATA <const> = {
     loadModule = loadModule,
     loadConfig = loadConfig,
     loadLocale = loadLocale,
+    unloadModule = unloadModule,
     isResourceStarted = isResourceStarted
 }
 

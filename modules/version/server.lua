@@ -4,7 +4,7 @@
 --- Check version of a resource
 ---@param r string : Repository name
 ---@return nil
-local function checkVersion(r)
+local function check(r)
     local resource = GetInvokingResource() or GetCurrentResourceName()
 
 	local currentVersion = GetResourceMetadata(resource, 'version', 0)
@@ -41,4 +41,4 @@ local function checkVersion(r)
 	end)
 end
 
-return checkVersion
+return check
