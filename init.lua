@@ -145,11 +145,11 @@ local AT_METADATA <const> = {
     modules = modules,
     configs = configs,
     locales = locales,
-    loadModule = loadModule,
-    loadConfig = loadConfig,
-    loadLocale = loadLocale,
-    unloadModule = unloadModule,
-    isResourceStarted = isResourceStarted
+    LoadModule = loadModule,
+    LoadConfig = loadConfig,
+    LoadLocale = loadLocale,
+    UnloadModule = unloadModule,
+    IsResourceStarted = isResourceStarted
 }
 
 --- Main Object

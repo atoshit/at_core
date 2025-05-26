@@ -1,3 +1,2 @@
-ExecuteCommand('memory')
-at.loadModule('version')('atoshit/at_core')
-at.unloadModule('version')
+at.LoadModule('version')('atoshit/at_core')
+at.UnloadModule('version')
