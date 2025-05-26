@@ -6,41 +6,118 @@
     Copyright © 2025 Atoshi <https://github.com/atoshit>
 ]]
 
-local modules_loaded = {}
 
 local RESOURCE_NAME <const> = GetCurrentResourceName()
 local CURRENT_ENV <const> = (IsDuplicityVersion() and 'server') or 'client'
 local LANG <const> = GetConvar('at_core:lang', 'en')
 local DEBUG <const> = GetConvarInt('at_core:debug', 0)
 local VERSION <const> = GetResourceMetadata(RESOURCE_NAME, 'version', 0)
+
+
+--- Load a file
+---@param p string
+---@return any
+---@private
+local function loadFile(p)
+    local module_path = ("%s.lua"):format(p)
+    local module_file = LoadResourceFile(RESOURCE_NAME, module_path)
+
+    if not module_file then
+        warn(('(func: loadFile) File not found: %s'):format(module_path))
+        return
+    end
+
+    local file = load(module_file)()
+
+    if file then
+        return file
+    end
+
+    return error(('(func: loadFile) Failed to load file: %s'):format(module_path))
+end
+
+local modules = {}
+
+--- Load a module
+---@param module string<'example: version'>
+---@return table|nil
+---@private
+local function loadModule(module)
+    if not module then
+        return warn('(func: loadModule) param module not found')
+    end
+
+    if modules[module] then
+        return modules[module]
+    end
+
+    modules[module] = loadFile(('modules.%s.%s'):format(CURRENT_ENV, module))
+
+    if not modules[module] then
+        return warn(('(func: loadModule) Failed to load module: %s'):format(module))
+    end
+
+    return modules[module]
+end
+
+local configs = {}
+
+--- Load a config
+---@param config string<'example: webhooks'>
+---@return table|nil
+---@private
+local function loadConfig(config)
+    if not config then
+        return warn('(func: loadConfig) param config not found')
+    end
+
+    if configs[config] then
+        return configs[config]
+    end
+
+    configs[config] = loadFile(('configs.%s.%s'):format(CURRENT_ENV, config))
+
+    if not configs[config] then
+        return warn(('(func: loadConfig) Failed to load config: %s'):format(config))
+    end
+
+    return configs[config]
+end
+
+local locales = {}
+
+--- Load a language
+---@param lang string | nil
+---@return table|nil
+---@private
+local function loadLocale(lang)
+    local language = (lang or LANG)
+
+    if locales[language] then
+        return locales[language]
+    end
+
+    locales[language] = loadFile(('locales.%s'):format(language))
+
+    if not locales[language] then
+        return warn('(func: loadLocale) Failed to load locale: ' .. language)
+    end
+
+    return locales[language]
+end
+
 local AT_METADATA <const> = {
     env = CURRENT_ENV,
     lang = LANG,
     debug = DEBUG,
     version = VERSION,
     resource = RESOURCE_NAME,
-    modules_loaded = modules_loaded,
-    require = function(p)
-        if modules_loaded[p] then
-            return modules_loaded[p]
-        end
-
-        local module_path = ("%s.lua"):format(p)
-        local module_file = LoadResourceFile(RESOURCE_NAME, module_path)
-
-        if not module_file then
-            warn(('Module not found: %s'):format(module_path))
-            return
-        end
-
-        modules_loaded[p] = load(module_file)()
-
-        if modules_loaded[p] then
-            return modules_loaded[p]
-        end
-
-        error(('Failed to load module: %s'):format(module_path))
-    end
+    modules = modules,
+    configs = configs,
+    locales = locales,
+    loadModule = loadModule,
+    loadConfig = loadConfig,
+    loadLocale = loadLocale
 }
 
 --- Main Object
@@ -50,6 +127,11 @@ local AT_METADATA <const> = {
 ---@field debug number<0|1>
 ---@field version string<'example: 1.0.0'>
 ---@field resource string<'at_core'>
+---@field modules table<{[string]: table}>
+---@field configs table<{[string]: table}>
+---@field locales table<{[string]: table}>
+---@field loadModule function
+---@field loadConfig function
 local at = {}
 
 setmetatable(at, {
