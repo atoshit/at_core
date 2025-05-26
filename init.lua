@@ -19,12 +19,15 @@ local VERSION <const> = GetResourceMetadata(RESOURCE_NAME, 'version', 0)
 ---@return any
 ---@private
 local function loadFile(p)
+    if not p then
+        return warn('(func: loadFile) param p not found')
+    end
+
     local module_path = ("%s.lua"):format(p)
     local module_file = LoadResourceFile(RESOURCE_NAME, module_path)
 
     if not module_file then
-        warn(('(func: loadFile) File not found: %s'):format(module_path))
-        return
+        return warn(('(func: loadFile) File not found: %s'):format(module_path))
     end
 
     local file = load(module_file)()
@@ -51,7 +54,7 @@ local function loadModule(module)
         return modules[module]
     end
 
-    modules[module] = loadFile(('modules.%s.%s'):format(CURRENT_ENV, module))
+    modules[module] = loadFile(('modules/%s/%s'):format(module, CURRENT_ENV))
 
     if not modules[module] then
         return warn(('(func: loadModule) Failed to load module: %s'):format(module))
@@ -75,7 +78,7 @@ local function loadConfig(config)
         return configs[config]
     end
 
-    configs[config] = loadFile(('configs.%s.%s'):format(CURRENT_ENV, config))
+    configs[config] = loadFile(('configs/%s/%s'):format(CURRENT_ENV, config))
 
     if not configs[config] then
         return warn(('(func: loadConfig) Failed to load config: %s'):format(config))
@@ -97,7 +100,7 @@ local function loadLocale(lang)
         return locales[language]
     end
 
-    locales[language] = loadFile(('locales.%s'):format(language))
+    locales[language] = loadFile(('locales/%s'):format(language))
 
     if not locales[language] then
         return warn('(func: loadLocale) Failed to load locale: ' .. language)
@@ -106,6 +109,7 @@ local function loadLocale(lang)
     return locales[language]
 end
 
+--- Check if a resource is started
 ---@param r string: Resource Name
 ---@return boolean<'true'|'false'>
 ---@private
@@ -146,16 +150,7 @@ setmetatable(at, {
     __index = AT_METADATA,
     __newindex = function(s, k, v)
         rawset(s, k, v)
-    end,
-    __call = function(s)
-        s.init = true
-        print('[^5at:core^7] Initializing...')
-        return s.init
     end
 })
 
 _ENV.at = at
-
-if at() then
-    print('[^2at:core^7] Initialized')
-end

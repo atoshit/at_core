@@ -9,9 +9,9 @@ version '0.0.1'
 repository 'https://github.com/atoshit/at_core'
 
 files {
-    'configs/**/*.lua',
+    --'configs/**/*.lua',
     'locales/*.lua',
-    'modules/**/**/*.lua'
+    'modules/**/*.lua'
 }
 
 shared_script 'init.lua'
