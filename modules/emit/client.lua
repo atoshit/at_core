@@ -5,3 +5,5 @@
 
     Copyright © 2025 Atoshi <https://github.com/atoshit>
 ]]
+
+-- Event
