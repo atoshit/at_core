@@ -127,7 +127,7 @@ local function debug(msg)
         return print("[^6at_core:debug^7] [^6".. timestamp .. "^7] " .. msg)
     end
 
-    return print("[^6at_core:debug^7]" .. msg)
+    return print("[^6at_core:debug^7] " .. msg)
 end
 
 --- Log a information message
@@ -142,7 +142,7 @@ local function info(msg)
         return print("[^4at_core:info^7] [^4".. timestamp .. "^7] " .. msg)
     end
 
-    return print("[^4at_core:info^7]" .. msg)
+    return print("[^4at_core:info^7] " .. msg)
 end
 
 local AT_METADATA <const> = {

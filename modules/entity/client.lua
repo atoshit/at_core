@@ -22,18 +22,23 @@ local function freeze(entity, state)
         return warn("(func: freeze) Entity does exist")
     end
 
-    if state and type(state) == "boolean" then
-        at.Debug("(func: freeze) Changing the entity's freeze state: " .. entity .. " [ -> " .. state .. " ]")
+    if state ~= nil or type(state) == "boolean" then
+        if state then
+            at.Debug("(func: freeze) Changing the entity's freeze state: ".. entity.. " [ -> true ]")
+            return FREEZE_ENT_POS(entity, state)
+        end
+
+        at.Debug("(func: freeze) Changing the entity's freeze state: " .. entity .. " [ -> false ]")
         return FREEZE_ENT_POS(entity, state)
     end
 
     local entity_freeze = IsEntityPositionFrozen(entity)
     if not entity_freeze then
-        at.Debug("(func: freeze) Changing the entity's freeze state: " .. entity .. " [ false -> true")
+        at.Debug("(func: freeze) Changing the entity's freeze state: " .. entity .. " [ false -> true ]")
         return FREEZE_ENT_POS(entity, true)
     end
 
-    at.Debug("(func: freeze) Changing the entity's freeze state: " .. entity .. " [ true -> false")
+    at.Debug("(func: freeze) Changing the entity's freeze state: " .. entity .. " [ true -> false ]")
     return FREEZE_ENT_POS(entity, false)
 end
 
@@ -65,7 +70,7 @@ end
 ---@private
 local function setCoords(entity, coords, heading, deadFlag, ragdollFlag, clearArea)
     if not entity then return warn("(func: setCoords) param entity not found") end
-    if not coords or type(coords) ~= "table" then return warn("(func: setCoords) param coords not found or invalid") end
+    if not coords then return warn("(func: setCoords) param coords not found") end
 
     if not DOES_ENT_EXIST(entity) then 
         return warn("(func: setCoords) Entity does exist")
