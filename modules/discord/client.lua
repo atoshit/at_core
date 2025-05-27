@@ -63,5 +63,5 @@ local function startPresence(appId, asset, assetText, buttons, buttonsUrl, prese
 end
 
 return {
-    start = startPresence,
+    start = startPresence
 }
