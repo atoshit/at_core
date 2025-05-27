@@ -15,6 +15,7 @@
 | Server commands | Server commands list | [Link](./docs/SERVER_COMMANDS.md) |
 | Entity module | Entity functions list & usage | [Link](./docs/ENTITY_MODULE.md) |
 | Model module | Model functions list & usage | [Link](./docs/MODEL_MODULE.md) |
+| Discord module | Discord functions list & usage | [Link](./docs/DISCORD_MODULE.md) |
 
 ## Features
 - **Modular** and user-friendly framework
