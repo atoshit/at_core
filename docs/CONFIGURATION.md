@@ -26,8 +26,19 @@ add_ace resource.at_core command allow
 3. Create a new file in your server's root directory called `at_core_settings.cfg`
 4. Copy this content into the file:
 ```
-setr at_core:debug 0 # 0 by default (0 == false, 1 == true)
+# Global
+setr at_core:debug 1 # 0 by default (0 == false, 1 == true)
 setr at_core:lang "en" # "en" by default
+
+# Discord
+
+## Presence
+setr at_core:presence:appId "YOUR_APP_ID_HERE" # Create an application at https://discord.com/developers/applications
+setr at_core:presence:updateInterval 5 # in seconds
+setr at_core:presence:asset "at_core_logo" 
+setr at_core:presence:assetText "At Core by atoshi" 
+setr at_core:presence:buttons ["Repository", "Join Server"]
+setr at_core:presence:buttonsUrl ["https://github.com/atoshit/at_core", "fivem://connect/cfx.re/join/8dekqv"]
 ```
 5. Configure the settings as needed.
 6. Start your server and enjoy :).
