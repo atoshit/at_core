@@ -7,8 +7,6 @@
 ]]
 
 local function spawnTest()
-    print('spawnTest')
-
     repeat
         Wait(200)
     until DoesEntityExist(PlayerPedId())
