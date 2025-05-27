@@ -13,19 +13,6 @@
   module.functionName()
   ```
 
-## at.LoadConfig
-- **Description:** Load a config file
-- **Parameters:**
-  - `config` (string): The name of the config file to load
-- **Return:** The config object
-- **Usage:**
-  ```lua
-  local config = at.loadConfig("configName")
-
-  -- Use the config
-  print(config.key)
-  ```
-
 ## at.LoadLocale
 - **Description:** Load a language file
 - **Parameters:**

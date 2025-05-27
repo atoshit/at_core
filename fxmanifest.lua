@@ -14,7 +14,10 @@ files {
     'modules/**/*.lua'
 }
 
-shared_script 'init.lua'
+shared_scripts {
+    'init.lua',
+    'sources/shared/**/*.lua',
+}
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',

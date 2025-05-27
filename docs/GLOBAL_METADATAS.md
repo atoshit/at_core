@@ -30,11 +30,6 @@
 - **Description:** The current modules list loaded
 - **Return:** The current modules list loaded `<{[string]: table}>`
 
-## at.configs
-- **Type:** `table`
-- **Description:** The current configs list loaded
-- **Return:** The current configs list loaded `<{[string]: table}>`
-
 ## at.locales
 - **Type:** `table`
 - **Description:** The current languages list loaded

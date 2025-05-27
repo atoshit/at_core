@@ -62,30 +62,6 @@ local function loadModule(module)
     return modules[module]
 end
 
-local configs = {}
-
---- Load a config
----@param config string<'example: webhooks'> : Config to load
----@return table|nil
----@private
-local function loadConfig(config)
-    if not config then
-        return warn('(func: loadConfig) param config not found')
-    end
-
-    if configs[config] then
-        return configs[config]
-    end
-
-    configs[config] = loadFile(('configs/%s/%s'):format(CURRENT_ENV, config))
-
-    if not configs[config] then
-        return warn(('(func: loadConfig) Failed to load config: %s'):format(config))
-    end
-
-    return configs[config]
-end
-
 local locales = {}
 
 --- Load a language
@@ -176,10 +152,8 @@ local AT_METADATA <const> = {
     version = VERSION,
     resource = RESOURCE_NAME,
     modules = modules,
-    configs = configs,
     locales = locales,
     LoadModule = loadModule,
-    LoadConfig = loadConfig,
     LoadLocale = loadLocale,
     UnloadModule = unloadModule,
     IsResourceStarted = isResourceStarted,
@@ -195,10 +169,8 @@ local AT_METADATA <const> = {
 ---@field version string<'example: 1.0.0'>
 ---@field resource string<'at_core'>
 ---@field modules table<{[string]: table}>
----@field configs table<{[string]: table}>
 ---@field locales table<{[string]: table}>
 ---@field LoadModule function
----@field LoadConfig function
 ---@field LoadLocale function
 ---@field UnloadModule function
 ---@field IsResourceStarted function
