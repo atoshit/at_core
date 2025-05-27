@@ -54,7 +54,7 @@ local function startPresence(appId, asset, assetText, buttons, buttonsUrl, prese
     self.assetText = assetText
     self.buttons = buttons
     self.buttonsUrl = buttonsUrl
-    self.presenceMessage = presenceMessage
+    self.presenceMessage = presenceMessage or "Atoshi Best Develoepr"
 
     self.startLoop = startLoop
     self.update = update
