@@ -182,6 +182,7 @@ local MT <const> = {
     __index = AT_METADATA,
     __newindex = function(s, k, v)
         rawset(s, k, v)
+        debug(('(metamethod: __newindex for AtCore obj) New key: %s (%s)'):format(k, type(v)))
     end
 }
 
