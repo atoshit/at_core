@@ -118,7 +118,7 @@ end
 ---@return any
 ---@private
 local function debug(msg)
-    if not DEBUG == 0 then return end
+    if DEBUG == 0 then return end
 
     if not msg or type(msg) ~= 'string' then return end
 
@@ -183,9 +183,18 @@ local MT <const> = {
     __newindex = function(s, k, v)
         rawset(s, k, v)
         debug(('(metamethod: __newindex for AtCore obj) New key: %s (%s)'):format(k, type(v)))
+    end,
+    __call = function(s)
+        if s.env and s.lang and s.resource and s.version and s.debug and s.LoadModule and s.LoadLocale and s.UnloadModule and s.IsResourceStarted then
+            return info(('(metamethod: __call for AtCore obj) AtCore is initialized\n- Version: ^4%s^7\n- Env: ^4%s^7\n- Resource: ^4%s^7\n- Debug: ^4%s^7\n- Lang: ^4%s^7'):format(s.version, s.env, s.resource, s.debug, s.lang))
+        end
+
+        return warn('(metamethod: __call for AtCore obj) AtCore was not initialized correctly')
     end
 }
 
 setmetatable(at, MT)
 
 _ENV.at = at
+
+at()
