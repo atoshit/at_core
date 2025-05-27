@@ -14,6 +14,7 @@
 | Global metadatas | Global metadatas list | [Link](./docs/GLOBAL_METADATAS.md) |
 | Server commands | Server commands list | [Link](./docs/SERVER_COMMANDS.md) |
 | Entity module | Entity functions list & usage | [Link](./docs/ENTITY_MODULE.md) |
+| Model module | Model functions list & usage | [Link](./docs/MODEL_MODULE.md) |
 
 ## Features
 - **Modular** and user-friendly framework

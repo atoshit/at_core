@@ -1,3 +1,11 @@
+--[[
+    https://github.com/atoshit/at_core
+
+    This file is licensed under LGPL-3.0 or higher <https://www.gnu.org/licenses/lgpl-3.0.en.html>
+
+    Copyright © 2025 Atoshi <https://github.com/atoshit>
+]]
+
 local SET_ENT_HEADING <const> = SetEntityHeading
 local DOES_ENT_EXIST <const> = DoesEntityExist
 local FREEZE_ENT_POS <const> = FreezeEntityPosition
@@ -15,17 +23,17 @@ local function freeze(entity, state)
     end
 
     if state and type(state) == "boolean" then
-        at.Debug("Changing the entity's freeze state: " .. entity .. " [ -> " .. state .. " ]")
+        at.Debug("(func: freeze) Changing the entity's freeze state: " .. entity .. " [ -> " .. state .. " ]")
         return FREEZE_ENT_POS(entity, state)
     end
 
     local entity_freeze = IsEntityPositionFrozen(entity)
     if not entity_freeze then
-        at.Debug("Changing the entity's freeze state: " .. entity .. " [ false -> true")
+        at.Debug("(func: freeze) Changing the entity's freeze state: " .. entity .. " [ false -> true")
         return FREEZE_ENT_POS(entity, true)
     end
 
-    at.Debug("Changing the entity's freeze state: " .. entity .. " [ true -> false")
+    at.Debug("(func: freeze) Changing the entity's freeze state: " .. entity .. " [ true -> false")
     return FREEZE_ENT_POS(entity, false)
 end
 
@@ -42,7 +50,7 @@ local function setHeading(entity, heading)
         return warn("(func: setHeading) Entity does exist")
     end
 
-    at.Debug("Changing the entity's heading : " .. heading)
+    at.Debug("(func: setHeading) Changing the entity's heading : " .. heading)
     return SET_ENT_HEADING(entity, heading)
 end
 
@@ -67,7 +75,7 @@ local function setCoords(entity, coords, heading, deadFlag, ragdollFlag, clearAr
         SET_ENT_HEADING(entity, heading)
     end
 
-    at.Debug("Changing the entity's position : " .. coords.x, coords.y, coords.z)
+    at.Debug("(func: setCoords) Changing the entity's position : " .. coords.x, coords.y, coords.z)
     return SetEntityCoords(entity, coords.x, coords.y, coords.z, false, deadFlag, ragdollFlag, clearArea)
 end
 
