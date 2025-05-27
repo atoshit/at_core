@@ -178,11 +178,13 @@ local AT_METADATA <const> = {
 ---@field Info function 
 local at = {}
 
-setmetatable(at, {
+local MT <const> = {
     __index = AT_METADATA,
     __newindex = function(s, k, v)
         rawset(s, k, v)
     end
-})
+}
+
+setmetatable(at, MT)
 
 _ENV.at = at
