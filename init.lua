@@ -13,6 +13,38 @@ local LOGO <const> = GetConvar('at_core:logo', 'https://media.discordapp.net/att
 local DEBUG <const> = GetConvarInt('at_core:debug', 0)
 local VERSION <const> = GetResourceMetadata(RESOURCE_NAME, 'version', 0)
 
+--- Log a debug message
+---@param msg string: Message to print
+---@return any
+---@private
+local function debug(msg)
+    if DEBUG == 0 then return end
+
+    if not msg or type(msg) ~= 'string' then return end
+
+    if CURRENT_ENV == 'server' then
+        local timestamp = os.date('%X')
+        return print("[^6at_core:debug^7] [^6" .. timestamp .. "^7] " .. msg)
+    end
+
+    return print("[^6at_core:debug^7] " .. msg)
+end
+
+--- Log a information message
+---@param msg string: Message to print
+---@return any
+---@private
+local function info(msg)
+    if not msg or type(msg) ~= 'string' then return end
+
+    if CURRENT_ENV == 'server' then
+        local timestamp = os.date('%X')
+        return print("[^4at_core:info^7] [^4" .. timestamp .. "^7] " .. msg)
+    end
+
+    return print("[^4at_core:info^7] " .. msg)
+end
+
 --- Load a file
 ---@param p string : Path of the file to load
 ---@return any
@@ -45,7 +77,6 @@ local modules = {}
 ---@return table|nil
 ---@private
 local function loadModule(module)
-    print(module)
     if not module then
         return warn('(func: loadModule) param module not found')
     end
@@ -60,6 +91,7 @@ local function loadModule(module)
         return warn(('(func: loadModule) Failed to load module: %s'):format(module))
     end
 
+    debug("(func: loadModule) Load module: ".. module)
     return modules[module]
 end
 
@@ -84,6 +116,7 @@ local function loadLocale(lang)
         return warn('(func: loadLocale) Failed to load locale: ' .. language)
     end
 
+    debug("(func: loadLocale) Load language: " .. lang)
     return locales[language]
 end
 
@@ -114,36 +147,12 @@ local function isResourceStarted(r)
     return GetResourceState(r) == 'started'
 end
 
---- Log a debug message
----@param msg string: Message to print
----@return any
----@private
-local function debug(msg)
-    if DEBUG == 0 then return end
-
-    if not msg or type(msg) ~= 'string' then return end
-
-    if CURRENT_ENV == 'server' then
-        local timestamp = os.date('%X')
-        return print("[^6at_core:debug^7] [^6".. timestamp .. "^7] " .. msg)
-    end
-
-    return print("[^6at_core:debug^7] " .. msg)
+local function getModules()
+    return modules
 end
 
---- Log a information message
----@param msg string: Message to print
----@return any
----@private
-local function info(msg)
-    if not msg or type(msg) ~= 'string' then return end
-
-    if CURRENT_ENV == 'server' then
-        local timestamp = os.date('%X')
-        return print("[^4at_core:info^7] [^4".. timestamp .. "^7] " .. msg)
-    end
-
-    return print("[^4at_core:info^7] " .. msg)
+local function getLocales()
+    return locales
 end
 
 local AT_METADATA <const> = {
@@ -153,8 +162,8 @@ local AT_METADATA <const> = {
     version = VERSION,
     resource = RESOURCE_NAME,
     logo = LOGO,
-    modules = modules,
-    locales = locales,
+    GetModules = getModules,
+    GetLocales = getLocales,
     LoadModule = loadModule,
     LoadLocale = loadLocale,
     UnloadModule = unloadModule,

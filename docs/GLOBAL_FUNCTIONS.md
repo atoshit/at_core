@@ -61,3 +61,23 @@
 
   at.Debug(msg)
   ```
+
+## at.GetModules
+- **Description:** Get all loaded modules
+- **Return:** A table containing all loaded modules
+- **Usage:**
+  ```lua
+  local modules = at.getModules()
+
+  print("Loaded modules: " .. #modules)
+  ```
+
+## at.GetLocales
+- **Description:** Get all loaded languages
+- **Return:** A table containing all loaded languages
+- **Usage:**
+  ```lua
+  local languages = at.GetLocales()
+
+  print("Loaded languages: ".. #languages)
+  ```
