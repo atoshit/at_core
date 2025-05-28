@@ -6,10 +6,10 @@
     Copyright © 2025 Atoshi <https://github.com/atoshit>
 ]]
 
-
 local RESOURCE_NAME <const> = GetCurrentResourceName()
 local CURRENT_ENV <const> = (IsDuplicityVersion() and 'server') or 'client'
 local LANG <const> = GetConvar('at_core:lang', 'en')
+local LOGO <const> = GetConvar('at_core:logo', 'https://media.discordapp.net/attachments/1376355947097755698/1376355976537571419/at_core_logo512.png?ex=6837a9e4&is=68365864&hm=abefc837b7bdc39a49549bec189a199b2428d050405edadff95edc169f779134&=&format=webp&quality=lossless')
 local DEBUG <const> = GetConvarInt('at_core:debug', 0)
 local VERSION <const> = GetResourceMetadata(RESOURCE_NAME, 'version', 0)
 
@@ -45,6 +45,7 @@ local modules = {}
 ---@return table|nil
 ---@private
 local function loadModule(module)
+    print(module)
     if not module then
         return warn('(func: loadModule) param module not found')
     end
@@ -151,6 +152,7 @@ local AT_METADATA <const> = {
     debug = DEBUG,
     version = VERSION,
     resource = RESOURCE_NAME,
+    logo = LOGO,
     modules = modules,
     locales = locales,
     LoadModule = loadModule,

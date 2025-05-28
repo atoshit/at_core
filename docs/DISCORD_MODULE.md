@@ -32,3 +32,31 @@
   -- Update the presence message
   pesence.presenceMessage = "Second message"
   ```
+
+## Client-side
+
+### send
+- **Description:** Send a discord log
+- **Parameters:**
+  - `webhook` (string): The webhook url
+  - `title` (string): The title of the embed
+  - `description` (string): The description of the embed
+  - `color` (string): The color of the embed ("red", yellow...)
+  - `fields` (table): The fields of the embed ({title = "title", value = "value", inline = true})
+  - `footer` (table): The footer of the embed
+  - `image` (string): The image of the embed
+  - `thumbnail` (string): The thumbnail of the embed
+- **Usage:**
+  ```lua
+  local log <const> = at.loadModule("discord")
+
+  local WEBHOOK <const> = "WEBHOOK_URL"
+  local IMAGE <const> = "IMAGE_URL"
+
+  local FIELDS <const> = {
+    {title = "Title", value = "Value", inline = true}, 
+    {title = "Title2", value = "Value2", inline = true}
+  }
+
+  log.send(WEBHOOK, "Title", "Description", "red", FIELDS, {"Text", IMAGE}, IMAGE, IMAGE)
+  ```
