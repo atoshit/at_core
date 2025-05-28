@@ -29,6 +29,8 @@ add_ace resource.at_core command allow
 # Global
 setr at_core:debug 1 # 0 by default (0 == false, 1 == true)
 setr at_core:lang "en" # "en" by default
+setr at_core:logo "https://media.discordapp.net/attachments/1376355947097755698/1376355976537571419/at_core_logo512.png?ex=6837a9e4&is=68365864&hm=abefc837b7bdc39a49549bec189a199b2428d050405edadff95edc169f779134&=&format=webp&quality=lossless"
+
 
 # Discord
 
