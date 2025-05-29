@@ -7,7 +7,6 @@
 ]]
 
 local SERVER_ID <const> = GetPlayerServerId(PlayerId())
-print('SERVER_ID: '.. SERVER_ID, type(SERVER_ID))
 local PREFIX <const> = 'at_core:callback'
 local TABLE_UNPACK <const> = table.unpack
 local AWAIT <const> = Citizen.Await
