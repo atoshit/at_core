@@ -11,8 +11,8 @@ local GET_RESOURCE_METADATA <const> = GetResourceMetadata
 local RESOURCE_NAME <const> = GetCurrentResourceName()
 local CURRENT_ENV <const> = (IsDuplicityVersion() and 'server') or 'client'
 local LANG <const> = GET_CONVAR('at_core:lang', 'en')
-local LOGO <const> = GET_CONVAR('at_core:logo', 'https://media.discordapp.net/attachments/1376355947097755698/1376355976537571419/at_core_logo512.png?ex=6837a9e4&is=68365864&hm=abefc837b7bdc39a49549bec189a199b2428d050405edadff95edc169f779134&=&format=webp&quality=lossless')
-local BANNER <const> = GET_CONVAR('at_core:banner', 'https://media.discordapp.net/attachments/1376355947097755698/1376355975929532517/at_core_banner_with_outline.png?ex=6838fb64&is=6837a9e4&hm=f83ddda4c966bb05c76d8527d78b08393f8c95fa9306abfcb7753f527956c421&=&format=webp&quality=lossless&width=1768&height=292')
+local LOGO <const> = GET_CONVAR('at_core:logo', 'https://i.postimg.cc/fTLXH3DD/at-core-logo512.png')
+local BANNER <const> = GET_CONVAR('at_core:banner', 'https://i.postimg.cc/FHLptbK9/at-core-banner-with-outline.png')
 local DEBUG <const> = GetConvarInt('at_core:debug', 0)
 local VERSION <const> = GET_RESOURCE_METADATA(RESOURCE_NAME, 'version', 0)
 local DESC <const> = GET_RESOURCE_METADATA(RESOURCE_NAME, 'description', 0)
@@ -121,7 +121,7 @@ local function loadLocale(lang)
         return warn('(func: loadLocale) Failed to load locale: ' .. language)
     end
 
-    debug("(func: loadLocale) Load language: " .. lang)
+    debug("(func: loadLocale) Load language: " .. language)
     return locales[language]
 end
 
@@ -204,11 +204,14 @@ local MT <const> = {
         debug(('(metamethod: __newindex for AtCore obj) New key: %s (%s)'):format(k, type(v)))
     end,
     __call = function(s)
+        local T <const> = loadLocale()
+
         if s.env and s.lang and s.resource and s.version and s.debug and s.LoadModule and s.LoadLocale and s.UnloadModule and s.IsResourceStarted then
             if s.env == 'server' then
                 local LOG <const> = at.LoadModule('discord')
                 local WEBHOOK <const> = GetConvar('at_core:webhooks:init', '')
-                LOG(WEBHOOK, "Core initialized", "The core has been initialized successfully, the metadata is now accessible in all the core.", 'at_core', {}, { text = "At Core", icon_url = at.logo }, nil, at.logo)
+                LOG(WEBHOOK, "Core initialized", T["init.success"], 'at_core', {}, { text = "At Core", icon_url = at.logo }, nil, at
+                .logo)
             end
 
             return info(('(metamethod: __call for AtCore obj) AtCore is initialized\n- Version: ^4%s^7\n- Env: ^4%s^7\n- Resource: ^4%s^7\n- Debug: ^4%s^7\n- Lang: ^4%s^7'):format(s.version, s.env, s.resource, s.debug, s.lang))
@@ -217,7 +220,7 @@ local MT <const> = {
         if s.env == 'server' then
             local LOG <const> = at.LoadModule('discord')
             local WEBHOOK <const> = GetConvar('at_core:webhooks:init', '')
-            LOG(WEBHOOK, "Failed core initialization", "The core has not been initialized correctly, all metadata is not necessarily accessible which can cause errors, checked your F8 console for errors and checked if you have configured everything in the `at_core_settings.cfg’.", 'yellow', {}, { text = "At Core", icon_url = at.logo }, nil, nil)
+            LOG(WEBHOOK, "Failed core initialization", T["init.failed"], 'yellow', {}, { text = "At Core", icon_url = at.logo }, nil, nil)
         end
 
         return warn('(metamethod: __call for AtCore obj) AtCore was not initialized correctly')

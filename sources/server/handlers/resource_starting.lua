@@ -1,3 +1,11 @@
+--[[
+    https://github.com/atoshit/at_core
+
+    This file is licensed under LGPL-3.0 or higher <https://www.gnu.org/licenses/lgpl-3.0.en.html>
+
+    Copyright © 2025 Atoshi <https://github.com/atoshit>
+]]
+
 AddEventHandler('onResourceStart', function(resource)
     if resource == at.resource then
         local LOG <const> = at.LoadModule('discord')
@@ -13,7 +21,7 @@ AddEventHandler('onResourceStart', function(resource)
             {name = "Debug", value = at.debug, inline = true},
             {name = "Lang",  value = at.lang, inline = true},
             {name = "Ram (bytes)", value = collectgarbage('count') .. 'B', inline = true},
-            {name = "Repository", value = at.repository, inline = false}
+            {name = "Github Repository", value = at.repository, inline = false}
         }
 
         LOG(WEBHOOK, "Resource Starting", "The resource `" .. at.resource .. "` has been started.", "at_core", FIELDS, { text = "At Core", icon_url = at.logo }, at.banner, at.logo)
