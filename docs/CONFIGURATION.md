@@ -20,8 +20,8 @@ ensure oxmysql
 2. In your `server.cfg` file, add this content after `ensure oxmysql`:
 ```
 exec at_core_settings.cfg
-ensure at_core
 add_ace resource.at_core command allow
+ensure at_core
 ```
 3. Create a new file in your server's root directory called `at_core_settings.cfg`
 4. Copy this content into the file:
