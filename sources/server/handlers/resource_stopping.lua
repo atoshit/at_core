@@ -6,7 +6,7 @@
     Copyright © 2025 Atoshi <https://github.com/atoshit>
 ]]
 
-ddEventHandler('onResourceStop', function(resource)
+AddEventHandler('onResourceStop', function(resource)
     if resource == at.resource then
         local LOG <const> = at.LoadModule('discord')
 

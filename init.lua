@@ -109,8 +109,6 @@ local locales = {}
 local function loadLocale(lang)
     local language = (lang or LANG)
 
-    print(language)
-
     if locales[language] then
         return locales[language]
     end

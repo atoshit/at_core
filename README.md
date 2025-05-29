@@ -16,6 +16,7 @@
 | Entity module | Entity functions list & usage | [Link](./docs/ENTITY_MODULE.md) |
 | Model module | Model functions list & usage | [Link](./docs/MODEL_MODULE.md) |
 | Discord module | Discord functions list & usage | [Link](./docs/DISCORD_MODULE.md) |
+| Callback module | Callback functions list & usage | [Link](./docs/CALLBACK_MODULE.md) |
 
 ## Features
 - **Modular** and user-friendly framework

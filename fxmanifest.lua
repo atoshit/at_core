@@ -16,7 +16,7 @@ files {
 
 shared_scripts {
     'init.lua',
-    'sources/shared/**/*.lua',
+    'sources/shared/*.lua'
 }
 
 server_scripts {
@@ -27,7 +27,8 @@ server_scripts {
 }
 
 client_scripts {
-    'sources/client/**/*.lua'
+    'sources/client/managers/*.lua',
+    'sources/client/*.lua'
 }
 
 dependency 'oxmysql'

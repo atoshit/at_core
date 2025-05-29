@@ -33,7 +33,7 @@
   pesence.presenceMessage = "Second message"
   ```
 
-## Client-side
+## Server-side
 
 ### send
 - **Description:** Send a discord log
