@@ -68,7 +68,7 @@ local function callClient(args)
 	ensure(args, 'table'); ensure(args.source, 'string', 'number'); ensure(args.eventName, 'string'); ensure(args.args, 'table', 'nil'); ensure(args.timeout, 'number', 'nil'); ensure(args.timedout, 'function', 'nil'); ensure(args.callback, 'function', 'nil')
 	local source = tonumber(args.source)
 	if not source or source < 0 then
-		error('source doit être égal ou supérieur à 0')
+		error('(func: callClient) source must be greater than 0')
 		return
 	end
 	local requestId = PREFIX .. ':' .. args.eventName .. ':' .. os.time() .. ':' .. math.random(100000, 999999)
@@ -113,7 +113,7 @@ local function call(args)
 	ensure(args, 'table'); ensure(args.eventName, 'string'); ensure(args.args, 'table', 'nil'); ensure(args.timeout, 'number', 'nil'); ensure(args.timedout, 'function', 'nil'); ensure(args.callback, 'function', 'nil')
 	local cb = callbacks[args.eventName]
 	if not cb then
-		error('Callback serveur non enregistré: ' .. args.eventName)
+		error('(func: call) Unregistered server callback: ' .. args.eventName)
 		return
 	end
 	

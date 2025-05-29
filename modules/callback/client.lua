@@ -133,7 +133,7 @@ local function call(args)
 
 	local cb = callbacks[args.eventName]
 	if not cb then
-		error('Callback client non enregistré: ' .. args.eventName)
+		error('(func: call) Unregistered client callback: ' .. args.eventName)
 		return
 	end
 	
