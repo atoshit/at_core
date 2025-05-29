@@ -52,7 +52,7 @@ local function send(webkook, title, description, color, fields, footer, image, t
         ["title"] = (title or "At Core Logs"),
         ["description"] = (description or ""),
         ["thumbnail"] = {
-            ["url"] = (thumbnail or at.logo or ""),
+            ["url"] = (thumbnail or ""),
         },
         ["fields"] = (fields or {}),
         ["footer"] = {

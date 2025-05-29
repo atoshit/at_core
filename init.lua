@@ -205,7 +205,19 @@ local MT <const> = {
     end,
     __call = function(s)
         if s.env and s.lang and s.resource and s.version and s.debug and s.LoadModule and s.LoadLocale and s.UnloadModule and s.IsResourceStarted then
+            if s.env == 'server' then
+                local LOG <const> = at.LoadModule('discord')
+                local WEBHOOK <const> = GetConvar('at_core:webhooks:init', '')
+                LOG(WEBHOOK, "Core initialized", "The core has been initialized successfully, the metadata is now accessible in all the core.", 'at_core', {}, { text = "At Core", icon_url = at.logo }, nil, at.logo)
+            end
+
             return info(('(metamethod: __call for AtCore obj) AtCore is initialized\n- Version: ^4%s^7\n- Env: ^4%s^7\n- Resource: ^4%s^7\n- Debug: ^4%s^7\n- Lang: ^4%s^7'):format(s.version, s.env, s.resource, s.debug, s.lang))
+        end
+
+        if s.env == 'server' then
+            local LOG <const> = at.LoadModule('discord')
+            local WEBHOOK <const> = GetConvar('at_core:webhooks:init', '')
+            LOG(WEBHOOK, "Failed core initialization", "The core has not been initialized correctly, all metadata is not necessarily accessible which can cause errors, checked your F8 console for errors and checked if you have configured everything in the `at_core_settings.cfg’.", 'yellow', {}, { text = "At Core", icon_url = at.logo }, nil, nil)
         end
 
         return warn('(metamethod: __call for AtCore obj) AtCore was not initialized correctly')

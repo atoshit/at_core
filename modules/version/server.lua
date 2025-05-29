@@ -5,6 +5,8 @@
 ---@param r string : Repository name
 ---@return nil
 local function check(r)
+    if not r then return warn("(func: check) No repository provided") end
+
     local resource = GetInvokingResource() or GetCurrentResourceName()
 
 	local current_version = GetResourceMetadata(resource, 'version', 0)
@@ -13,7 +15,7 @@ local function check(r)
 		current_version = current_version:match('%d+%.%d+%.%d+')
 	end
 
-	if not current_version then return print(("^1Unable to determine current resource version for '%s' ^0"):format(resource)) end
+	if not current_version then return print(("(func: check) ^1Unable to determine current resource version for '%s' ^0"):format(resource)) end
 
 	SetTimeout(1000, function()
 		PerformHttpRequest(('https://api.github.com/repos/%s/releases/latest'):format(r), function(status, response)
