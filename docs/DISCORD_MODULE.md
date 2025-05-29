@@ -42,7 +42,7 @@
   - `title` (string): The title of the embed
   - `description` (string): The description of the embed
   - `color` (string): The color of the embed ("red", yellow...)
-  - `fields` (table): The fields of the embed ({title = "title", value = "value", inline = true})
+  - `fields` (table): The fields of the embed ({name = "title", value = "value", inline = true})
   - `footer` (table): The footer of the embed
   - `image` (string): The image of the embed
   - `thumbnail` (string): The thumbnail of the embed
