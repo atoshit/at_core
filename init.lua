@@ -6,12 +6,17 @@
     Copyright © 2025 Atoshi <https://github.com/atoshit>
 ]]
 
+local GET_CONVAR <const> = GetConvar
+local GET_RESOURCE_METADATA <const> = GetResourceMetadata
 local RESOURCE_NAME <const> = GetCurrentResourceName()
 local CURRENT_ENV <const> = (IsDuplicityVersion() and 'server') or 'client'
-local LANG <const> = GetConvar('at_core:lang', 'en')
-local LOGO <const> = GetConvar('at_core:logo', 'https://media.discordapp.net/attachments/1376355947097755698/1376355976537571419/at_core_logo512.png?ex=6837a9e4&is=68365864&hm=abefc837b7bdc39a49549bec189a199b2428d050405edadff95edc169f779134&=&format=webp&quality=lossless')
+local LANG <const> = GET_CONVAR('at_core:lang', 'en')
+local LOGO <const> = GET_CONVAR('at_core:logo', 'https://media.discordapp.net/attachments/1376355947097755698/1376355976537571419/at_core_logo512.png?ex=6837a9e4&is=68365864&hm=abefc837b7bdc39a49549bec189a199b2428d050405edadff95edc169f779134&=&format=webp&quality=lossless')
+local BANNER <const> = GET_CONVAR('at_core:banner', 'https://media.discordapp.net/attachments/1376355947097755698/1376355975929532517/at_core_banner_with_outline.png?ex=6838fb64&is=6837a9e4&hm=f83ddda4c966bb05c76d8527d78b08393f8c95fa9306abfcb7753f527956c421&=&format=webp&quality=lossless&width=1768&height=292')
 local DEBUG <const> = GetConvarInt('at_core:debug', 0)
-local VERSION <const> = GetResourceMetadata(RESOURCE_NAME, 'version', 0)
+local VERSION <const> = GET_RESOURCE_METADATA(RESOURCE_NAME, 'version', 0)
+local DESC <const> = GET_RESOURCE_METADATA(RESOURCE_NAME, 'description', 0)
+local REPO <const> = GET_RESOURCE_METADATA(RESOURCE_NAME, 'repository', 0)
 
 --- Log a debug message
 ---@param msg string: Message to print
@@ -161,7 +166,10 @@ local AT_METADATA <const> = {
     debug = DEBUG,
     version = VERSION,
     resource = RESOURCE_NAME,
+    desc = DESC,
+    repository = REPO,
     logo = LOGO,
+    banner = BANNER,
     GetModules = getModules,
     GetLocales = getLocales,
     LoadModule = loadModule,

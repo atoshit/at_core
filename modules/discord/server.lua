@@ -59,11 +59,11 @@ local function send(webkook, title, description, color, fields, footer, image, t
             ["text"] = (footer.text or "Atoshi Best Developer"),
             ["icon_url"] = (footer.icon_url or ""),
         },
+        ['timestamp'] = os.date('!%Y-%m-%dT%H:%M:%S'),
         ["image"] = {
             ["url"] = (image or ""),
         }
     }
-
     return PerformHttpRequest(webkook, function(err, text, headers) end, 'POST', json.encode({ ["username"] = at.resource, ["avatar_url"] = at.logo, embeds = { embed } }), { ['Content-Type'] = 'application/json' })
 end
 

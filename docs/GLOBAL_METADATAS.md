@@ -24,3 +24,23 @@
 - **Type:** `string`
 - **Description:** The current resource name
 - **Return:** The current resource name (by default `at_core`)
+
+## at.desc
+- **Type:** `string`
+- **Description:** The current resource description
+- **Return:** The current resource description
+
+## at.repository
+- **Type:** `string`
+- **Description:** The current resource repository
+- **Return:** The current resource repository
+
+## at.logo
+- **Type:** `string`
+- **Description:** The current resource logo
+- **Return:** The current resource logo
+
+## at.banner 
+- **Type:** `string`
+- **Description:** The current resource banner
+- **Return:** The current resource banner

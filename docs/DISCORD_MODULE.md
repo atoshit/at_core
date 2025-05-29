@@ -54,9 +54,9 @@
   local IMAGE <const> = "IMAGE_URL"
 
   local FIELDS <const> = {
-    {title = "Title", value = "Value", inline = true}, 
-    {title = "Title2", value = "Value2", inline = true}
+    {name = "Title", value = "Value", inline = true}, 
+    {name = "Title2", value = "Value2", inline = true}
   }
 
-  log.send(WEBHOOK, "Title", "Description", "red", FIELDS, {"Text", IMAGE}, IMAGE, IMAGE)
+  log(WEBHOOK, "Title", "Description", "red", FIELDS, {text = "Text", icon_url = IMAGE}, IMAGE, IMAGE)
   ```
