@@ -29,15 +29,18 @@ add_ace resource.at_core command allow
 # Global
 setr at_core:debug 1 # 0 by default (0 == false, 1 == true)
 setr at_core:lang "en" # "en" by default
-setr at_core:logo "https://media.discordapp.net/attachments/1376355947097755698/1376355976537571419/at_core_logo512.png?ex=6837a9e4&is=68365864&hm=abefc837b7bdc39a49549bec189a199b2428d050405edadff95edc169f779134&=&format=webp&quality=lossless"
+setr at_core:logo "YOUR_LOGO_URL_HERE"
 
+# Game
+## Spawn
+setr at_core:spawn:coords {"x": -3058.714, "y": 3329.19, "z": 12.5844, "w": 0.0}
+setr at_core:spawn:ped "mp_m_freemode_01" 
 
 # Discord
-
 ## Presence
-setr at_core:presence:appId "YOUR_APP_ID_HERE" # Create an application at https://discord.com/developers/applications
+setr at_core:presence:appId "YOUR_APP_ID" # Create an application at https://discord.com/developers/applications
 setr at_core:presence:updateInterval 5 # in seconds
-setr at_core:presence:asset "at_core_logo" 
+setr at_core:presence:asset "YOUR_ASSET_NAME" 
 setr at_core:presence:assetText "At Core by atoshi" 
 setr at_core:presence:buttons ["Repository", "Join Server"]
 setr at_core:presence:buttonsUrl ["https://github.com/atoshit/at_core", "fivem://connect/cfx.re/join/8dekqv"]

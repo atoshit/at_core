@@ -6,6 +6,8 @@
     Copyright © 2025 Atoshi <https://github.com/atoshit>
 ]]
 
+local GET_CONVAR <const> = GetConvar
+
 local function spawnTest()
     repeat
         Wait(200)
@@ -13,11 +15,12 @@ local function spawnTest()
 
     local MODEL <const> = at.LoadModule('model')
     local ENTITY <const> = at.LoadModule('entity')
+    local COORDS <const> = json.decode(GET_CONVAR('at_core:spawn:coords', {}))
+    local PED_MODEL <const> = GET_CONVAR('at_core:spawn:ped', 'mp_m_freemode_01')
 
-    MODEL.setToPlayer('mp_m_freemode_01', PlayerId())
+    MODEL.setToPlayer(PED_MODEL, PlayerId())
 
-    local COORDS <const> = vec3(-3058.714, 3329.19, 12.5844)
-    ENTITY.setCoords(PlayerPedId(), COORDS, nil, false, false, false)
+    ENTITY.setCoords(PlayerPedId(), vec3(COORDS.x, COORDS.y, COORDS.z), COORDS.w, false, false, false)
 
     if IsLoadingPromptBeingDisplayed() then
         RemoveLoadingPrompt()
@@ -25,9 +28,10 @@ local function spawnTest()
         ShutdownLoadingScreenNui()
     end
 
-    if DoesEntityExist(PlayerPedId()) then
-        SetPedDefaultComponentVariation(PlayerPedId())
-        ENTITY.freeze(PlayerPedId(), false)
+    local playerPed = PlayerPedId()
+    if DoesEntityExist(playerPed) then
+        SetPedDefaultComponentVariation(playerPed)
+        ENTITY.freeze(playerPed, false)
     end
 end
 
