@@ -33,7 +33,7 @@
         args = {"arg1"},
         timeout = 5,
         callback = function(cash, bank)
-            print("Argent du joueur:", cash, "Banque:", bank)
+            print("Cash:", cash, "bank:", bank)
         end
     })
 
@@ -43,7 +43,7 @@
         args = {123},
         timeout = 5
     })
-    print("Argent du joueur:", cash, "Banque:", bank)
+    print("Cash:", cash, "bank:", bank)
   ```
 
 ## unregister
@@ -92,10 +92,10 @@
         args = {},
         timeout = 5, -- secondes
         timedout = function()
-            print("La requête a expiré")
+            print("Timeout")
         end,
         callback = function(x, y, z)
-            print("Position du joueur:", x, y, z)
+            print("Position:", x, y, z)
         end
     })
 
@@ -103,9 +103,8 @@
     local x, y, z = cb.callClient({
         source = playerId,
         eventName = "getPlayerPosition",
-        timeout = 5
     })
-    print("Position du joueur:", x, y, z)
+    print("Position:", x, y, z)
   ```
 
 ## unregister
