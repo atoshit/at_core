@@ -13,7 +13,7 @@ local AWAIT <const> = Citizen.Await
 local PENDING <const> = 0
 
 local callbacks = {}
-local requestsAwaitingResponse = {}
+local requests_awaiting_response = {}
 
 ---@param obj any
 ---@param typeof string
@@ -80,9 +80,9 @@ local function callServer(args)
 	local prom = promise.new()
 	local eventCallback = args.callback
 	
-	if not requestsAwaitingResponse.__initialized then
+	if not requests_awaiting_response.__initialized then
 		RegisterNetEvent(PREFIX..':client:response', function(id, data)
-			local request = requestsAwaitingResponse[id]
+			local request = requests_awaiting_response[id]
 			if not request then return end
 			
 			if request.callback and request.promise.state == PENDING then 
@@ -90,12 +90,12 @@ local function callServer(args)
 			end
 			
 			request.promise:resolve(TABLE_UNPACK(data or {}))
-			requestsAwaitingResponse[id] = nil
+			requests_awaiting_response[id] = nil
 		end)
-		requestsAwaitingResponse.__initialized = true
+		requests_awaiting_response.__initialized = true
 	end
 	
-	requestsAwaitingResponse[requestId] = {
+	requests_awaiting_response[requestId] = {
 		promise = prom,
 		callback = eventCallback,
 		time = GetGameTimer()
@@ -105,11 +105,11 @@ local function callServer(args)
 
 	if args.timeout and args.timeout > 0 then
 		SetTimeout(args.timeout * 1000, function()
-			local request = requestsAwaitingResponse[requestId]
+			local request = requests_awaiting_response[requestId]
 			if request and request.promise.state == PENDING then
 				if args.timedout then args.timedout() end
 				request.promise:reject('timeout')
-				requestsAwaitingResponse[requestId] = nil
+				requests_awaiting_response[requestId] = nil
 			end
 		end)
 	end
@@ -151,12 +151,12 @@ CreateThread(function()
     while true do
         Wait(30000) 
         local currentTime = GetGameTimer()
-        for id, request in pairs(requestsAwaitingResponse) do
+        for id, request in pairs(requests_awaiting_response) do
             if id ~= "__initialized" and currentTime - request.time > 60000 then 
                 if request.promise.state == PENDING then
                     request.promise:reject('timeout')
                 end
-                requestsAwaitingResponse[id] = nil
+                requests_awaiting_response[id] = nil
             end
         end
     end
