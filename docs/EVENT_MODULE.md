@@ -13,7 +13,7 @@
 
     emit.net("sendPlayerMoney", 1000)
 
-    or 
+    -- or 
 
     at.emit.net("sendPlayerMoney", 1000)
   ```
@@ -29,7 +29,7 @@
 
     emit("sendPlayerMoney", 1000)
 
-    or 
+    -- or 
 
     at.emit("sendPlayerMoney", 1000)
   ```
@@ -40,7 +40,7 @@
 - **Description:** Register a net event
 - **Parameters:**
   - `eventName` (string): Name of the event
-  - `...` (any): Arguments to pass to the event
+  - `cb` (function): Callback
 - **Usage:**
   ```lua
     local on = at.LoadModule('on')
@@ -49,7 +49,7 @@
         print(source, money)
     end)
 
-    or
+    -- or
 
     at.on.net('sendPlayerMoney', function(source, money)
         print(source, money)
@@ -60,7 +60,7 @@
 - **Description:** Register a event
 - **Parameters:**
   - `eventName` (string): Name of the event
-  - `...` (any): Arguments to pass to the event
+  - `cb` (function): Callback
 - **Usage:**
   ```lua
     local on = at.LoadModule('on')
@@ -69,7 +69,7 @@
         print(money)
     end)
 
-    or 
+    -- or 
 
     at.on('sendPlayerMoney', function(money)
         print(money)
