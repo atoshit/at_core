@@ -7,6 +7,7 @@
 ]]
 
 local GET_CONVAR <const> = GetConvar
+local emit = at.LoadModule('emit')
 
 local function spawnTest()
     repeat
@@ -32,6 +33,8 @@ local function spawnTest()
     if DoesEntityExist(playerPed) then
         SetPedDefaultComponentVariation(playerPed)
         ENTITY.freeze(playerPed, false)
+
+        emit.net('at_core:loadPlayer')
     end
 end
 
