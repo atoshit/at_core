@@ -1,5 +1,5 @@
 --[[
-    https://github.com/atoshit/at_core
+    https://github.com/atoshit/at_core | https://github.com/supv-cfx/supv_core/tree/main/imports/emit
 
     This file is licensed under LGPL-3.0 or higher <https://www.gnu.org/licenses/lgpl-3.0.en.html>
 
