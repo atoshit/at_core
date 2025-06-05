@@ -13,12 +13,14 @@
 | Global functions | Global functions list & usage | [Link](./docs/GLOBAL_FUNCTIONS.md) |
 | Global metadatas | Global metadatas list | [Link](./docs/GLOBAL_METADATAS.md) |
 | Server commands | Server commands list | [Link](./docs/SERVER_COMMANDS.md) |
+| Client commands | Client commands list | [Link](./docs/CLIENT_COMMANDS.md) |
 | Entity module | Entity functions list & usage | [Link](./docs/ENTITY_MODULE.md) |
 | Model module | Model functions list & usage | [Link](./docs/MODEL_MODULE.md) |
 | Discord module | Discord functions list & usage | [Link](./docs/DISCORD_MODULE.md) |
 | Callback module | Callback functions list & usage | [Link](./docs/CALLBACK_MODULE.md) |
 | Event module | Event functions list & usage | [Link](./docs/EVENT_MODULE.md) |
 | String module | String functions list & usage | [Link](./docs/STRING_MODULE.md) |
+| Minimap module | Minimap functions list & usage | [Link](./docs/MINIMAP_MODULE.md) |
 
 ## Features
 - **Modular** and user-friendly framework
