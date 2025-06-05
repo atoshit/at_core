@@ -26,7 +26,8 @@ server_scripts {
 
 client_scripts {
     'sources/client/managers/*.lua',
-    'sources/client/*.lua'
+    'sources/client/*.lua',
+    'sources/client/commands/*.lua'
 }
 
 dependency 'oxmysql'
