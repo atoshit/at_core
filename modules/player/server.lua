@@ -60,7 +60,7 @@ end
 
 ---@param id number
 ---@return player_object
-local function getPlayer(id)
+function at.GetPlayer(id)
     at.Debug('(func: get) called')
 
     if players_instance[id] then
@@ -70,5 +70,5 @@ end
 
 return {
     create = player_object.new,
-    get = getPlayer
+    get = at.GetPlayer
 }
