@@ -15,14 +15,14 @@ end
 
 local SAVE_NEW_PLAYER_QUERY <const> = 'INSERT INTO `players` (`name`, `rank`, `license`, `steam`, `discord`, `ip`, `xbl`, `live`, `tokens`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
 local SAVE_PLAYER_QUERY <const> = 'UPDATE `players` SET `name` = ?, `rank` = ?, `steam` = ?, `discord` = ?, `ip` = ?, `xbl` = ?, `live` = ?, `tokens` = ? WHERE `license` = ?'
-local function savePlayer(name, rank, license, steam, discord, ip, xbl, live, tokens)
-    local tokens_json = (type(tokens) == 'table' and json.encode(tokens) or tokens)
+local function savePlayer(name, rank, identifiers)
+    local tokens_json = (type(identifiers.tokens) == 'table' and json.encode(identifiers.tokens) or identifiers.tokens)
     
     if playerExist(license) then
-        return MySQL.update.await(SAVE_PLAYER_QUERY, {name, rank, steam, discord, ip, xbl, live, tokens_json, license})
+        return MySQL.update.await(SAVE_PLAYER_QUERY, {name, rank, identifiers.steam, identifiers.discord, identifiers.ip, identifiers.xbl, identifiers.live, tokens_json, identifiers.license})
     end
 
-    MySQL.insert.await(SAVE_NEW_PLAYER_QUERY, {name, rank, license, steam, discord, ip, xbl, live, tokens_json})
+    MySQL.insert.await(SAVE_NEW_PLAYER_QUERY, {name, rank, identifiers.license, identifiers.steam, identifiers.discord, identifiers.ip, identifiers.xbl, identifiers.live, tokens_json})
 end
 
 return {

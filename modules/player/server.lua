@@ -14,14 +14,14 @@ player_object.__index = player_object
 ---@param self player_object
 local function save(self)
     at.Debug('(func: save) called')
-    return mysql.savePlayer(self.name, self.rank, self.identifiers.license, self.identifiers.steam, self.identifiers.discord, self.identifiers.ip, self.identifiers.xbl, self.identifiers.live, self.identifiers.tokens)
+    return mysql.savePlayer(self.name, self.rank, self.identifiers)
 end
 
 ---@param id number
 ---@param data table
 ---@return player_object
 function player_object.new(id, data)
-    at.Debug('(func: new) called')
+    at.Debug('(func: player_object.new) called')
 
     local self = setmetatable({}, player_object)
 

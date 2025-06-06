@@ -44,3 +44,8 @@
 - **Type:** `string`
 - **Description:** The current resource banner
 - **Return:** The current resource banner
+
+## at.players 
+- **Type:** `table`
+- **Description:** List of players object
+- **Return:** List of players object

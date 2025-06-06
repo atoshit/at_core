@@ -11,18 +11,6 @@ function at.CreatePlayer(id, data)
     end
 end
 
---- Destroy a player object
----@param id number
----@return boolean
-function at.DestroyPlayer(id)
-    if at.players[id] then
-        at.players[id] = nil
-        return true
-    end
-
-    return false
-end
-
 --- Get a player
 ---@param id number
 ---@return player|boolean
@@ -32,4 +20,18 @@ function at.GetPlayer(id)
     end
 
     return at.players[id]
+end
+
+--- Destroy a player object
+---@param id number
+---@return boolean
+function at.DestroyPlayer(id)
+    local player = at.GetPlayer(id)
+
+    if not player then return false end
+
+    player:save()
+    at.players[id] = nil
+
+    return true
 end
