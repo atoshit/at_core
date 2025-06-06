@@ -61,14 +61,27 @@ end
 ---@param id number
 ---@return player_object
 function at.GetPlayer(id)
-    at.Debug('(func: get) called')
+    at.Debug('(func: at.GetPlayer) called')
 
     if players_instance[id] then
         return players_instance[id]
     end
 end
 
+---@param id number
+---@return 
+function at.DestroyPlayer(id)
+    at.Debug('(func: at.DestroyPlayer) called')
+
+    if not players_instance[id] then
+        return at.Debug('(func: at.DestroyPlayer) player not found')
+    end
+
+    return players_instance[id] = nil
+end
+
 return {
     create = player_object.new,
-    get = at.GetPlayer
+    get = at.GetPlayer,
+    destroy = at.DestroyPlayer
 }
