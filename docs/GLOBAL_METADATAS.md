@@ -49,3 +49,8 @@
 - **Type:** `table`
 - **Description:** List of players object
 - **Return:** List of players object
+
+## at.playersCount 
+- **Type:** `number`
+- **Description:** Number of players
+- **Return:** Number of players

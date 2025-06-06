@@ -1,4 +1,5 @@
 at.players = {}
+at.playersCount = 0
 
 local PLAYER <const> = at.LoadModule('player')
 
@@ -8,6 +9,7 @@ local PLAYER <const> = at.LoadModule('player')
 function at.CreatePlayer(id, data)
     if not at.players[id] then
         at.players[id] = PLAYER(id, data)
+        at.playersCount += 1
     end
 end
 
@@ -32,6 +34,7 @@ function at.DestroyPlayer(id)
 
     player:save()
     at.players[id] = nil
+    at.playersCount -= 1
 
     return true
 end

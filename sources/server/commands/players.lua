@@ -1,5 +1,5 @@
 RegisterCommand('players', function()
-    print(#at.players)
+    print(at.playersCount)
 end)
 
 RegisterCommand('player', function(_, args)
