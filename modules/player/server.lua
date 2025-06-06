@@ -14,13 +14,13 @@ player_object.__index = player_object
 
 ---@param self player_object
 local function save(self)
-    print('(func: save) called')
+    at.Debug('(func: save) called')
     return mysql.savePlayer(self.name, self.rank, self.identifiers.license, self.identifiers.steam, self.identifiers.discord, self.identifiers.ip, self.identifiers.xbl, self.identifiers.live, self.identifiers.tokens)
 end
 
 ---@param self player_object
 local function destroy(self)
-    print('(func: destroy) called')
+    at.Debug('(func: destroy) called')
 
     if not players_instance[self.id] then
         return
@@ -33,7 +33,7 @@ end
 ---@param data table
 ---@return player_object
 function player_object.new(id, data)
-    print('(func: new) called')
+    at.Debug('(func: new) called')
 
     local self = setmetatable({}, player_object)
 
@@ -61,7 +61,7 @@ end
 ---@param id number
 ---@return player_object
 local function getPlayer(id)
-    print('(func: get) called')
+    at.Debug('(func: get) called')
 
     if players_instance[id] then
         return players_instance[id]
