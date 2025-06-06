@@ -8,7 +8,6 @@
 
 local mysql = at.LoadModule('mysql')
 
-local players_instance = {}
 player_object = {}
 player_object.__index = player_object
 
@@ -16,17 +15,6 @@ player_object.__index = player_object
 local function save(self)
     at.Debug('(func: save) called')
     return mysql.savePlayer(self.name, self.rank, self.identifiers.license, self.identifiers.steam, self.identifiers.discord, self.identifiers.ip, self.identifiers.xbl, self.identifiers.live, self.identifiers.tokens)
-end
-
----@param self player_object
-local function destroy(self)
-    at.Debug('(func: destroy) called')
-
-    if not players_instance[self.id] then
-        return
-    end
-
-    players_instance[self.id] = nil
 end
 
 ---@param id number
@@ -51,37 +39,8 @@ function player_object.new(id, data)
     }
 
     self.save = save
-    self.destroy = destroy
-
-    players_instance[self.id] = self
 
     return self
 end
 
----@param id number
----@return player_object
-function at.GetPlayer(id)
-    at.Debug('(func: at.GetPlayer) called')
-
-    if players_instance[id] then
-        return players_instance[id]
-    end
-end
-
----@param id number
----@return 
-function at.DestroyPlayer(id)
-    at.Debug('(func: at.DestroyPlayer) called')
-
-    if not players_instance[id] then
-        return at.Debug('(func: at.DestroyPlayer) player not found')
-    end
-
-    return players_instance[id] = nil
-end
-
-return {
-    create = player_object.new,
-    get = at.GetPlayer,
-    destroy = at.DestroyPlayer
-}
+return player_object.new
