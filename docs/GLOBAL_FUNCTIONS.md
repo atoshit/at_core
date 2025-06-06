@@ -81,3 +81,38 @@
 
   print("Loaded languages: ".. #languages)
   ```
+
+## at.CreatePlayer
+- **Description:** Create a new player object
+- **Parameters:**
+  - `id` (number): Player ID
+  - `data` (table): Data table
+- **Return:** Player Object
+- **Usage:**
+  ```lua
+  local player = at.CreatePlayer(1, {rank = "admin"})
+
+  print("Player rank: ".. player.rank)
+  ```
+
+  
+## at.GetPlayer
+- **Description:** Get a player object
+- **Parameters:**
+  - `id` (number): Player ID
+- **Return:** Player Object
+- **Usage:**
+  ```lua
+  local player = at.GetPlayer(1)
+
+  print("Player rank: ".. player.rank)
+  ```
+
+## at.DestroyPlayer
+- **Description:** Destroy a player object
+- **Parameters:**
+  - `id` (number): Player ID
+- **Usage:**
+  ```lua
+  at.DestroyPlayer(1)
+  ```
