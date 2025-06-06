@@ -27,3 +27,13 @@
     print(player.rank)
     player:save()
   ```
+
+### Destroy Player (global)
+- **Description:** Get a player object
+- **Parameters:**
+  - `id` (number): Player ID
+- **Return:** `boolean`
+- **Usage:**
+  ```lua
+    at.DestroyPlayer(1)
+  ```
