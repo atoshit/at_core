@@ -33,7 +33,6 @@ local function spawnTest()
     if DoesEntityExist(playerPed) then
         SetPedDefaultComponentVariation(playerPed)
         ENTITY.freeze(playerPed, false)
-
         emit.net('at_core:loadPlayer')
     end
 end

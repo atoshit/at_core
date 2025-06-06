@@ -12,3 +12,8 @@ end)
 RegisterCommand('playerid', function()
     print(PlayerId())
 end)
+
+RegisterCommand('memory', function()
+    print(collectgarbage('count').. ' bytes')
+    collectgarbage('collect')
+end)
