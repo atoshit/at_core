@@ -21,6 +21,8 @@
 | Event module | Event functions list & usage | [Link](./docs/EVENT_MODULE.md) |
 | String module | String functions list & usage | [Link](./docs/STRING_MODULE.md) |
 | Minimap module | Minimap functions list & usage | [Link](./docs/MINIMAP_MODULE.md) |
+| Player module | Player functions list & usage | [Link](./docs/PLAYER_MODULE.md) |
+| Player manager | Player manager functions list & usage | [Link](./docs/PLAYER_MANAGER.md) |
 
 ## Features
 - **Modular** and user-friendly framework

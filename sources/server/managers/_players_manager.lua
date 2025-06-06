@@ -7,7 +7,7 @@ local PLAYER <const> = at.LoadModule('player')
 ---@param data table
 function at.CreatePlayer(id, data)
     if not at.players[id] then
-        at.players[id] = PLAYER.create(id, data)
+        at.players[id] = PLAYER(id, data)
     end
 end
 
