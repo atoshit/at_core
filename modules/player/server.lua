@@ -6,15 +6,15 @@
     Copyright © 2025 Atoshi <https://github.com/atoshit>
 ]]
 
-local mysql = at.LoadModule('mysql')
+local MYSQL <const> = at.LoadModule('mysql')
 
 player_object = {}
 player_object.__index = player_object
 
 ---@param self player_object
 local function save(self)
-    at.Debug('(func: save) called')
-    return mysql.savePlayer(self.name, self.rank, self.identifiers)
+    at.Debug('(func: player_object:save) called')
+    return MYSQL.savePlayer(self.name, self.rank, self.identifiers)
 end
 
 ---@param id number

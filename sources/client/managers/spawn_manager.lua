@@ -7,21 +7,26 @@
 ]]
 
 local GET_CONVAR <const> = GetConvar
-local emit = at.LoadModule('emit')
+local EMIT <const> = at.LoadModule('emit')
 
-local function spawnTest()
+local function spawnCharacter(data)
     repeat
         Wait(200)
     until DoesEntityExist(PlayerPedId())
 
     local MODEL <const> = at.LoadModule('model')
     local ENTITY <const> = at.LoadModule('entity')
-    local COORDS <const> = json.decode(GET_CONVAR('at_core:spawn:coords', {}))
     local PED_MODEL <const> = GET_CONVAR('at_core:spawn:ped', 'mp_m_freemode_01')
 
     MODEL.setToPlayer(PED_MODEL, PlayerId())
 
-    ENTITY.setCoords(PlayerPedId(), vec3(COORDS.x, COORDS.y, COORDS.z), COORDS.w, false, false, false)
+    if not data.coords then
+        local COORDS <const> = json.decode(GET_CONVAR('at_core:spawn:coords', {}))
+
+        ENTITY.setCoords(PlayerPedId(), vec3(COORDS.x, COORDS.y, COORDS.z), COORDS.w, false, false, false)
+    else
+        ENTITY.setCoords(PlayerPedId(), vec3(-391.3216, 4363.728, 58.65862), 345.3, false, false, false)
+    end
 
     if IsLoadingPromptBeingDisplayed() then
         RemoveLoadingPrompt()
@@ -33,8 +38,19 @@ local function spawnTest()
     if DoesEntityExist(playerPed) then
         SetPedDefaultComponentVariation(playerPed)
         ENTITY.freeze(playerPed, false)
-        emit.net('at_core:loadPlayer')
+
+        EMIT.net('at_core:playerLoaded')
+        EMIT('at_core:playerLoaded')
     end
 end
 
-CreateThread(spawnTest)
+local CB <const> = at.LoadModule('callback')
+
+CB.callServer({
+    eventName = 'at_core:loadPlayer',
+    args = {},
+    timeout = 5,
+    callback = function(data)
+        spawnCharacter(data)
+    end
+})

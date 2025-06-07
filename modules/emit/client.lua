@@ -37,8 +37,6 @@ function at.emit.net(name,...)
             args = {},
             timeout = 5
         })        
-
-        print('TOKEN', token)
     end
 
     TRIGGER_SERVER_EVENT(STRING.formatByte(name), token,...)

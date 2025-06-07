@@ -1,6 +1,17 @@
-local on = at.LoadModule('on')
+local CB = at.LoadModule('callback')
 
-on.net('at_core:loadPlayer', function(source)
-    print('loadPlayer')
-    at.CreatePlayer(source, {rank = "admin"})
-end)
+CB.register({
+    eventName = 'at_core:loadPlayer',
+    eventCallback = function(source)
+        at.CreatePlayer(source, {rank = "admin"})
+
+        local player = at.GetPlayer(source)
+
+        if not player then return end
+
+        return {
+            coords = false,
+            skin = {}
+        }
+    end
+})
